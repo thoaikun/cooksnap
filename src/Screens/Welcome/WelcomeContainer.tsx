@@ -12,8 +12,8 @@ type WelcomeScreenNavigatorProps = NativeStackScreenProps<
 export const WelcomeContainer = ({
   navigation,
 }: WelcomeScreenNavigatorProps) => {
-  const onNavigate = (screen: RootScreens) => {
-    navigation.navigate(screen);
+  const onNavigate = (screen: RootScreens, params?: any) => {
+    navigation.navigate(screen, params);
   };
 
   return <Welcome onNavigate={onNavigate} />;

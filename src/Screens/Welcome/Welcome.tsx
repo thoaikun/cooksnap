@@ -42,7 +42,7 @@ const DoneBtn = ({ onPress }: any) => {
 }
 
 export const Welcome = (props: {
-  onNavigate: (string: RootScreens) => void;
+  onNavigate: (string: RootScreens, params?: any) => void;
 }) => {
   return (
     <Onboarding 
@@ -57,8 +57,8 @@ export const Welcome = (props: {
       NextButtonComponent={NextBtn}
       SkipButtonComponent={SkipBtn}
       DoneButtonComponent={DoneBtn}
-      onSkip={() => props.onNavigate(RootScreens.MAIN)}
-      onDone={() => props.onNavigate(RootScreens.MAIN)}
+      onSkip={() => props.onNavigate(RootScreens.MAIN, {previousScreen: 'onboarding'})}
+      onDone={() => props.onNavigate(RootScreens.MAIN, {previousScreen: 'onboarding'})}
     />
   );
 };

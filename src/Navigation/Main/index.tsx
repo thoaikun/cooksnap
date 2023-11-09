@@ -1,11 +1,29 @@
-import React from "react";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { RootScreens } from "@/Screens";
 import { HomeContainer } from "@/Screens/Home";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import React, { useEffect } from "react";
+import { RootStackParamList } from "..";
 
 const Tab = createBottomTabNavigator();
 
+type MainNavigatorProps = NativeStackScreenProps<
+  RootStackParamList,
+  RootScreens.MAIN
+>;
+
 // @refresh reset
-export const MainNavigator = () => {
+export const MainNavigator = ({ route, navigation}: MainNavigatorProps) => {
+
+  useEffect(() => {
+    const { previousScreen } = route.params
+
+    navigation.addListener('beforeRemove', (e) => {
+      if (previousScreen && previousScreen === 'onboarding')
+        e.preventDefault()
+    })
+  })
+
   return (
     <Tab.Navigator>
       <Tab.Screen

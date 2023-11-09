@@ -7,8 +7,10 @@ import { WelcomeContainer } from "@/Screens/Welcome";
 import { RootScreens } from "@/Screens";
 
 export type RootStackParamList = {
-  [RootScreens.MAIN]: undefined;
-  [RootScreens.WELCOME]: undefined;
+  [RootScreens.MAIN]: {
+    previousScreen?: string
+  };
+  [RootScreens.WELCOME]: undefined
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
@@ -26,7 +28,6 @@ const ApplicationNavigator = () => {
         <RootStack.Screen
           name={RootScreens.MAIN}
           component={MainNavigator}
-          options={{}}
         />
       </RootStack.Navigator>
     </NavigationContainer>
