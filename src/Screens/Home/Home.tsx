@@ -1,9 +1,14 @@
-import { i18n, LocalizationKey } from "@/Localization";
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
-import { StatusBar } from "expo-status-bar";
-import { HStack, Spinner, Heading } from "native-base";
+import FilledButton from "@/Components/Button/FilledButton";
+import OutlinedButton from "@/Components/Button/OutlinedButton";
+import TextButton from "@/Components/Button/TextButton";
+import Input from "@/Components/Input/Input";
 import { User } from "@/Services";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faEnvelope } from '@fortawesome/free-regular-svg-icons/faEnvelope'
+import React from "react";
+import { View } from "react-native";
+import useInputController from "@/Components/Input/useInputController";
+import { Colors } from "@/Theme/Variables";
 
 export interface IHomeProps {
   data: User | undefined;
@@ -11,34 +16,25 @@ export interface IHomeProps {
 }
 
 export const Home = (props: IHomeProps) => {
-  const { data, isLoading } = props;
+  const passwordController = useInputController()
+
   return (
-    <View style={styles.container}>
-      <StatusBar style="auto" />
-      {isLoading ? (
-        <HStack space={2} justifyContent="center">
-          <Spinner accessibilityLabel="Loading posts" />
-          <Heading color="primary.500" fontSize="md">
-            {i18n.t(LocalizationKey.LOADING)}
-          </Heading>
-        </HStack>
-      ) : (
-        <>
-          <Text>{i18n.t(LocalizationKey.HOME)}</Text>
-          <Heading color="primary.500" fontSize="md">
-            {data?.username}
-          </Heading>
-        </>
-      )}
+    <View>
+      <FilledButton title="Hello" />
+      <TextButton title="Hiii" />
+      <OutlinedButton title="Halloo" />
+      
+      <Input 
+        controller={passwordController}
+        label="Password"
+        prefix={
+          <FontAwesomeIcon 
+            icon={faEnvelope} 
+            size={22} 
+            color={passwordController.isFocused ? Colors.PRIMARY : Colors.BACKGROUND} 
+          />
+        }
+      />
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

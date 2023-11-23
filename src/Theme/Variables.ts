@@ -9,13 +9,18 @@
  * Colors
  */
 export enum Colors {
-  TRANSPARENT = "rgba(0,0,0,0)",
-  INPUT_BACKGROUND = "#FFFFFF",
-  WHITE = "#ffffff",
-  TEXT = "#212529",
-  PRIMARY = "#E14032",
+  TRANSPARENT = 'rgba(0,0,0,0)',
+  BACKGROUND = "#BBC0C3",
+  WHITE = "#FFFFFF",
+  BLACK = '#000000',
+  PRIMARY_TEXT = "#26292C",
+  SECONDARY_TEXT = '#9DA3A8',
+  PRIMARY = "#3DC73A",
+  PRIMARY_LIGHT = '#ECF9EB',
+  PRIMARY_DARK = '#2E952C',
   SUCCESS = "#28a745",
-  ERROR = "#dc3545",
+  ERROR = "#C74530",
+  WARNING = '#E8DF07'
 }
 
 export enum NavigationColors {
@@ -26,6 +31,7 @@ export enum NavigationColors {
  * FontSize
  */
 export enum FontSize {
+  EXTRA_SMALL = 14,
   SMALL = 16,
   REGULAR = 20,
   LARGE = 40,

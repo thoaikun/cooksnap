@@ -3,7 +3,7 @@ import { StatusBar } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
 import { MainNavigator } from "./Main";
-import { WelcomeContainer } from "@/Screens/Welcome";
+import { WelcomeContainer } from "@/Screens/Welcome/WelcomeContainer";
 import { RootScreens } from "@/Screens";
 
 export type RootStackParamList = {
@@ -20,7 +20,10 @@ const ApplicationNavigator = () => {
   return (
     <NavigationContainer>
       <StatusBar />
-      <RootStack.Navigator screenOptions={{ headerShown: false }}>
+      <RootStack.Navigator 
+        screenOptions={{ headerShown: false }}
+        initialRouteName={RootScreens.MAIN}
+      >
         <RootStack.Screen
           name={RootScreens.WELCOME}
           component={WelcomeContainer}
