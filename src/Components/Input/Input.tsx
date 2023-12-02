@@ -1,16 +1,13 @@
 import { Colors, FontSize } from "@/Theme/Variables"
-import { useState } from "react"
-import { View, Text, StyleSheet, TextInput } from "react-native"
+import { StyleSheet, Text, TextInput, View } from "react-native"
 import { InputController } from "./useInputController"
 
 interface IProps {
     label: string,
     placeholder?: string,
     prefix?: JSX.Element,
-    controller: InputController
+    controller?: InputController
 }
-
-
 
 const Input = ({
     label,
@@ -22,22 +19,22 @@ const Input = ({
         <View 
             style={[
                 styles.container,
-                controller.isFocused && styles.containerFocus
+                controller?.isFocused && styles.containerFocus
             ]}
         >
             {prefix}
 
             <View style={styles.inputContainer}>
-                <Text style={[styles.label, controller.isFocused && styles.labelFocus]}>
+                <Text style={[styles.label, controller?.isFocused && styles.labelFocus]}>
                     {label}
                 </Text>
                 <TextInput 
                     style={styles.input}
-                    value={controller.value}
-                    onChangeText={controller.setValue}
+                    value={controller?.value}
+                    onChangeText={controller?.setValue}
                     placeholder={placeholder}
-                    onFocus={() => controller.setIsFocused(true)}
-                    onBlur={() => controller.setIsFocused(false)}
+                    onFocus={() => controller?.setIsFocused(true)}
+                    onBlur={() => controller?.setIsFocused(false)}
                 />
             </View>
         </View>
@@ -50,7 +47,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center',
-        columnGap: 10,
+        columnGap: 15,
 
         paddingHorizontal: 15,
         paddingVertical: 8,

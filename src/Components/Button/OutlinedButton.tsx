@@ -1,19 +1,21 @@
 import { Colors, FontSize } from "@/Theme/Variables"
 import { useState } from "react"
-import { Pressable, StyleSheet, Text } from "react-native"
+import { Pressable, StyleProp, StyleSheet, Text, ViewStyle } from "react-native"
 
 interface IProps {
     title: string,
     onPress?: () => void
+    style?: StyleProp<ViewStyle>
 }
 
-const OutlinedButton = ({ title, onPress }: IProps) => {
+const OutlinedButton = ({ title, onPress, style }: IProps) => {
     const [isPressed, setIsPressed] = useState<boolean>(false)
 
     return (
         <Pressable
             style={[
                 styles.container,
+                style,
                 isPressed && styles.containerPressed
             ]}
             onPress={onPress}

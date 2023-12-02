@@ -41,5 +41,19 @@ export const vi = {
   [LocalizationKey.SEARCH]: 'Tìm kiếm',
   [LocalizationKey.SEARCH_RESULT]: 'Kết quả tìm kiếm',
   [LocalizationKey.SIGN_UP]: 'Đăng ký',
-  [LocalizationKey.YOUR_LIST]: 'Danh sách của bạn'
+  [LocalizationKey.YOUR_LIST]: 'Danh sách của bạn',
+
+  [LocalizationKey.EMAIL]: 'Email',
+  [LocalizationKey.PASSWORD]: 'Mật khẩu',
+  [LocalizationKey.CONFIRM_PASSWORD]: 'Xác nhận mật khẩu',
+  [LocalizationKey.DO_NOT_HAVE_ACCOUNT]: 'Chưa có tài khoản?',
+  [LocalizationKey.HAVE_ACCOUNT]: 'Đã có tài khoản?',
+  [LocalizationKey.SIGN_UP_QUOTE]:  'Bắt đầu hành trình với Cooksnap',
+  [LocalizationKey.FORGOT_PASSWORD_STEP_1]: 'Bước 1 trên 2',
+  [LocalizationKey.FORGOT_PASSWORD_STEP_2]: 'Bước 2 trên 2',
+  [LocalizationKey.CHECK_YOUR_EMAIL]: 'Kiểm tra email của bạn',
+  [LocalizationKey.EMAIL_SENT]: 'Chúng tôi đã gửi mật khẩu của bạn qua email, kiểm tra ngay',
+  [LocalizationKey.VERIFY]: 'Xác nhận',
+  [LocalizationKey.DO_NOT_HAVE_EMAIL]: 'Không có email?',
+  [LocalizationKey.SEND_AGAIN]: 'Gửi lại',
 };

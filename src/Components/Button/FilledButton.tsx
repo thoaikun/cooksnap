@@ -1,19 +1,22 @@
 import { Colors, FontSize } from "@/Theme/Variables";
 import { useState } from "react";
+import { StyleProp, ViewStyle } from "react-native";
 import { Text, StyleSheet, TouchableOpacity, Pressable, Animated } from "react-native"
 
 interface IProps {
     title: string;
     onPress?: () => void
+    style?: StyleProp<ViewStyle>
 }
 
-const FilledButton = ({ title, onPress }: IProps) => {
+const FilledButton = ({ title, onPress, style }: IProps) => {
     const [isPressed, setIsPressed] = useState<boolean>(false)
 
     return (
         <TouchableOpacity 
             style={[
                 styles.container,
+                style,
                 isPressed && styles.containerPressed
             ]} 
             activeOpacity={1}

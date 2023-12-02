@@ -41,5 +41,19 @@ export const en = {
   [LocalizationKey.SEARCH]: 'Search',
   [LocalizationKey.SEARCH_RESULT]: 'Search result',
   [LocalizationKey.SIGN_UP]: 'Sign up',
-  [LocalizationKey.YOUR_LIST]: 'Your list'
+  [LocalizationKey.YOUR_LIST]: 'Your list',
+
+  [LocalizationKey.EMAIL]: 'Email',
+  [LocalizationKey.PASSWORD]: 'Password',
+  [LocalizationKey.CONFIRM_PASSWORD]: 'Confirm password',
+  [LocalizationKey.DO_NOT_HAVE_ACCOUNT]: 'Do\'t have an account?',
+  [LocalizationKey.HAVE_ACCOUNT]: 'Have an account?',
+  [LocalizationKey.SIGN_UP_QUOTE]:  'Start your new journey with Cooksnap',
+  [LocalizationKey.FORGOT_PASSWORD_STEP_1]: 'Step 1 of 2',
+  [LocalizationKey.FORGOT_PASSWORD_STEP_2]: 'Step 2 of 2',
+  [LocalizationKey.CHECK_YOUR_EMAIL]: 'Check your email',
+  [LocalizationKey.EMAIL_SENT]: 'We have sent your password though your email, check it now',
+  [LocalizationKey.VERIFY]: 'Verify',
+  [LocalizationKey.DO_NOT_HAVE_EMAIL]: 'Don\'t have any email?',
+  [LocalizationKey.SEND_AGAIN]: 'Send again',
 };

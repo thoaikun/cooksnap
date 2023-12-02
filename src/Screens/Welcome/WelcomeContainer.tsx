@@ -16,5 +16,5 @@ export const WelcomeContainer = ({
     navigation.navigate(screen, params);
   };
 
-  return <Welcome onNavigate={onNavigate} />;
+  return <Welcome onNavigate={onNavigate} />;{}
 };
