@@ -1,13 +1,17 @@
-import React from "react";
-import { StatusBar } from "react-native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { NavigationContainer } from "@react-navigation/native";
-import { MainNavigator } from "./Main";
-import { WelcomeContainer } from "@/Screens/Welcome/WelcomeContainer";
 import { RootScreens } from "@/Screens";
+import FavoriteDetailContainer from "@/Screens/FavoritesDetail/FavoritesDetailContainer";
+import { ForgotPasswordContainer } from "@/Screens/ForgotPassword/ForgotPasswordContainer";
 import { LoginContainer } from "@/Screens/Login/LoginContainer";
 import { SignUpContainer } from "@/Screens/SignUp/SignUpContainer";
-import { ForgotPasswordContainer } from "@/Screens/ForgotPassword/ForgotPasswordContainer";
+import { SnapContainer } from "@/Screens/Snap/SnapContainer";
+import { WelcomeContainer } from "@/Screens/Welcome/WelcomeContainer";
+import { Colors } from "@/Theme/Variables";
+import { DefaultTheme, NavigationContainer, Theme } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import React from "react";
+import { StatusBar } from "react-native";
+import { MainNavigator } from "./Main";
+import DishDetailContainer from "@/Screens/DishDetail/DishDetailContainer";
 
 export type RootStackParamList = {
   [RootScreens.MAIN]: {
@@ -17,6 +21,18 @@ export type RootStackParamList = {
   [RootScreens.LOGIN]: undefined
   [RootScreens.SIGN_UP]: undefined
   [RootScreens.FORGOT_PASSWORD]: undefined
+  [RootScreens.SNAP]: undefined
+  [RootScreens.FAVORITE_DETAIL]: undefined
+  [RootScreens.DISH_DETAIL]: undefined
+};
+
+const MyTheme: Theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: Colors.PRIMARY,
+    background: 'white'
+  },
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
@@ -24,11 +40,11 @@ const RootStack = createNativeStackNavigator<RootStackParamList>();
 // @refresh reset
 const ApplicationNavigator = () => {
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={MyTheme}>
       <StatusBar />
       <RootStack.Navigator 
         screenOptions={{ headerShown: false }}
-        initialRouteName={ RootScreens.LOGIN }
+        initialRouteName={ RootScreens.DISH_DETAIL }
       >
         <RootStack.Screen
           name={RootScreens.LOGIN}
@@ -49,6 +65,24 @@ const ApplicationNavigator = () => {
         <RootStack.Screen
           name={RootScreens.MAIN}
           component={MainNavigator}
+        />
+        <RootStack.Screen
+          name={RootScreens.SNAP}
+          component={SnapContainer}
+        />
+        <RootStack.Screen
+          name={RootScreens.FAVORITE_DETAIL}
+          component={FavoriteDetailContainer}
+          options={{
+            headerShown: true,
+          }}
+        />
+        <RootStack.Screen
+          name={RootScreens.DISH_DETAIL}
+          component={DishDetailContainer}
+          options={{
+            headerShown: true,
+          }}
         />
       </RootStack.Navigator>
     </NavigationContainer>

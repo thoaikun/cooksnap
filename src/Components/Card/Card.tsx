@@ -66,8 +66,7 @@ const styles = StyleSheet.create({
     containerRow: { 
         width: '100%',
         elevation: 0, 
-        
-        borderRadius: 8,
+    
         backgroundColor: Colors.WHITE,
         
         shadowColor: 'rgba(0, 0, 0, 0.10)',
@@ -90,7 +89,7 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0.9, height: 0.9 },
         shadowOpacity: 1,
         shadowRadius: 1.8,
-        elevation: 10,
+        elevation: 20,
 
         display: 'flex',
         flexDirection: 'column',

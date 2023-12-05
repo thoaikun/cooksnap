@@ -4,4 +4,15 @@ export enum RootScreens {
   LOGIN = "Login",
   SIGN_UP = "Register",
   FORGOT_PASSWORD = "ForgotPassword",
+  SNAP = "Snap",
+  FAVORITE_DETAIL = "FavoriteDetail", 
+  DISH_DETAIL = "DishDetail",
+}
+
+export enum MainScreens {
+  HOME = "Home",
+  PROFILE = "Profile",
+  FAVORITE = "Favorite",
+  SEARCH = "Search",
+  SNAP_PLACEHOLDER = "SnapPlaceholder",
 }

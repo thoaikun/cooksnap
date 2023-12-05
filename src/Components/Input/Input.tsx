@@ -7,13 +7,15 @@ interface IProps {
     placeholder?: string,
     prefix?: JSX.Element,
     controller?: InputController
+    autoFocus?: boolean
 }
 
 const Input = ({
     label,
     placeholder,
     prefix,
-    controller
+    controller,
+    autoFocus
 }: IProps) => {
     return (
         <View 
@@ -35,6 +37,7 @@ const Input = ({
                     placeholder={placeholder}
                     onFocus={() => controller?.setIsFocused(true)}
                     onBlur={() => controller?.setIsFocused(false)}
+                    autoFocus={autoFocus}
                 />
             </View>
         </View>

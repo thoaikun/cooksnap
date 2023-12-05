@@ -1,21 +1,31 @@
-import { RootScreens } from "@/Screens";
-import { FavoritesContainer } from "@/Screens/Favorites/FavoritesContainer";
+import TakeSnapButton from "@/Components/Button/TakeSnapButton";
+import { MainScreens, RootScreens } from "@/Screens";
+import { FavoriteContainer } from "@/Screens/Favorites/FavoritesContainer";
 import { HomeContainer } from "@/Screens/Home/HomeContainer";
+import Placeholder from "@/Screens/Placeholder";
 import { ProfileContainer } from "@/Screens/Profile/ProfileContainer";
 import { SearchContainer } from "@/Screens/Search/SearchContainer";
+import { Colors } from "@/Theme/Variables";
+import { faHeart } from "@fortawesome/free-solid-svg-icons/faHeart";
+import { faHouse } from "@fortawesome/free-solid-svg-icons/faHouse";
+import { faSearch } from "@fortawesome/free-solid-svg-icons/faSearch";
+import { faUser } from "@fortawesome/free-solid-svg-icons/faUser";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { RootStackParamList } from "..";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faHouse } from "@fortawesome/free-solid-svg-icons/faHouse"
-import { faHeart } from "@fortawesome/free-solid-svg-icons/faHeart"
-import { faSearch } from "@fortawesome/free-solid-svg-icons/faSearch"
-import { faUser } from "@fortawesome/free-solid-svg-icons/faUser"
-import { Colors } from "@/Theme/Variables";
-import TakeSnapButton from "@/Components/Button/TakeSnapButton";
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator<BottomTabsParamList>();
+
+export type BottomTabsParamList = {
+  [MainScreens.HOME]: undefined;
+  [MainScreens.FAVORITE]: undefined;
+  [MainScreens.SNAP_PLACEHOLDER]: undefined;
+  [MainScreens.SEARCH]: undefined;
+  [MainScreens.PROFILE]: undefined;  
+};
+
 
 type MainNavigatorProps = NativeStackScreenProps<
   RootStackParamList,
@@ -24,6 +34,7 @@ type MainNavigatorProps = NativeStackScreenProps<
 
 // @refresh reset
 export const MainNavigator = ({ route, navigation}: MainNavigatorProps) => {
+  const [currentScreen, setCurrentScreen] = useState('home')
 
   useEffect(() => {
     if (!route?.params)
@@ -34,7 +45,7 @@ export const MainNavigator = ({ route, navigation}: MainNavigatorProps) => {
       if (previousScreen && previousScreen === 'onboarding')
         e.preventDefault()
     })
-  })
+  }, [])
 
   return (
     <Tab.Navigator
@@ -45,7 +56,7 @@ export const MainNavigator = ({ route, navigation}: MainNavigatorProps) => {
       }}
     >
       <Tab.Screen
-        name="Home"
+        name={MainScreens.HOME}
         component={HomeContainer}
         options={{
           tabBarIcon: ({ focused }) => (
@@ -54,8 +65,8 @@ export const MainNavigator = ({ route, navigation}: MainNavigatorProps) => {
         }}
       />
       <Tab.Screen
-        name="Favorite"
-        component={FavoritesContainer}
+        name={MainScreens.FAVORITE}
+        component={FavoriteContainer}
         options={{
           tabBarIcon: ({ focused }) => (
             <FontAwesomeIcon icon={faHeart} size={20} color={focused ? Colors.PRIMARY : Colors.BACKGROUND} />
@@ -63,16 +74,25 @@ export const MainNavigator = ({ route, navigation}: MainNavigatorProps) => {
         }}
       />
       <Tab.Screen
-        name="Snap"
-        component={SearchContainer}
+        name={MainScreens.SNAP_PLACEHOLDER}
+        component={Placeholder}
         options={{
           tabBarIcon: (_) => (
             <TakeSnapButton />
-          )
+          ),
+          headerShown: false,
+        }}
+        listeners={{
+          tabPress: (e) => {
+            if (currentScreen == 'Snap') {
+              e.preventDefault()
+              console.log('snap')
+            }
+          }
         }}
       />
       <Tab.Screen
-        name="Search"
+        name={MainScreens.SEARCH}
         component={SearchContainer}
         options={{
           tabBarIcon: ({ focused }) => (
@@ -81,7 +101,7 @@ export const MainNavigator = ({ route, navigation}: MainNavigatorProps) => {
         }}
       />
       <Tab.Screen
-        name="Profile"
+        name={MainScreens.PROFILE}
         component={ProfileContainer}
         options={{
           tabBarIcon: ({ focused }) => (
