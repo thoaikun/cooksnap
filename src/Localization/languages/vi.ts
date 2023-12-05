@@ -41,7 +41,8 @@ export const vi = {
   [LocalizationKey.SEARCH]: 'Tìm kiếm',
   [LocalizationKey.SEARCH_RESULT]: 'Kết quả tìm kiếm',
   [LocalizationKey.SIGN_UP]: 'Đăng ký',
-  [LocalizationKey.YOUR_LIST]: 'Danh sách của bạn',
+  [LocalizationKey.YOUR_LIST]: 'Danh sách yêu thích',
+  [LocalizationKey.LOGOUT]: 'Đăng xuất',
 
   [LocalizationKey.EMAIL]: 'Email',
   [LocalizationKey.PASSWORD]: 'Mật khẩu',
@@ -56,4 +57,20 @@ export const vi = {
   [LocalizationKey.VERIFY]: 'Xác nhận',
   [LocalizationKey.DO_NOT_HAVE_EMAIL]: 'Không có email?',
   [LocalizationKey.SEND_AGAIN]: 'Gửi lại',
+
+  [LocalizationKey.ABOUT_DISH]: 'Thông tin',
+  [LocalizationKey.RECIPE_DISH]: 'Công thức',
+  [LocalizationKey.NUTRIENT]: 'Dinh dưỡng',
+  [LocalizationKey.DESCRIPTION]: 'Mô tả',
+  [LocalizationKey.INGREDIENT]: 'Nguyên liệu',
+  [LocalizationKey.CALORY]: 'Calo',
+  [LocalizationKey.FAT]: 'Chất béo',
+  [LocalizationKey.PROTEIN]: 'Chất đạm',
+  [LocalizationKey.CARB]: 'Chất bột',
+
+  [LocalizationKey.MY_LIST]: 'Danh sách của tôi',
+  [LocalizationKey.ADD_NEW_LIST]: 'Thêm danh sách mới',
+  [LocalizationKey.CREATE]: 'Tạo',
+  [LocalizationKey.CANCEL]: 'Hủy',
+  [LocalizationKey.YOUR_LIST_NAME]: 'Tên danh sách',
 };

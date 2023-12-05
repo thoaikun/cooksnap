@@ -1,3 +1,4 @@
+import { FontSize } from '@/Theme/Variables'
 import { StyleSheet } from 'react-native'
 
 const styles = StyleSheet.create({
@@ -23,9 +24,8 @@ const styles = StyleSheet.create({
     },
     headerText: {
         width: '100%',
-  
-        fontFamily: 'SF-Pro-Rounded_bold',
-        fontSize: 14,
+        fontSize: FontSize.EXTRA_SMALL,
+        fontWeight: 'bold',
         textAlign: 'center',
     },
   
@@ -39,25 +39,25 @@ const styles = StyleSheet.create({
         marginVertical: 10,
     },
     recipeTitle: {
-        fontFamily: 'SF-Pro-Rounded_semibold',
         fontSize: 20,
     },
   
     section: {
         marginVertical: 10,
+        gap: 10
     },
     sectionTitle: {
-        fontFamily: 'SF-Pro-Rounded_bold',
-        fontSize: 20,
+        fontSize: FontSize.REGULAR,
+        fontWeight: '500'
     },
     sectionText: {
-        fontFamily: 'SF-Pro-Rounded_regular',
-        fontSize: 17,
+        fontSize: FontSize.SMALL,
     },
     sectionContainer: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'flex-start',
+        gap: 10
     },
   
     nutrientElement: {
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     },
     progressBar: {
         marginLeft: 20,
-        borderRadius: 10,
+        borderRadius: 4,
     },
   
     reviewCardContainer: {

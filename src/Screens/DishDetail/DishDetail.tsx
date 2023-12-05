@@ -4,6 +4,8 @@ import * as React from 'react'
 import { Image, View } from 'react-native'
 import About from './AboutTab'
 import styles from './styles'
+import Recipe from './RecipeTab'
+import { LocalizationKey, i18n } from '@/Localization'
 
 const Tab = createMaterialTopTabNavigator()
 
@@ -23,7 +25,7 @@ const DishDetail = () => {
         style={styles.bodyContainer}
         screenOptions={{
           tabBarInactiveTintColor: Colors.BLACK,
-          tabBarActiveTintColor: Colors.BLACK,
+          tabBarActiveTintColor: Colors.PRIMARY,
           tabBarLabelStyle: styles.headerText,
           tabBarStyle: {
               elevation: 0,
@@ -38,9 +40,26 @@ const DishDetail = () => {
           },
         }}
       >
-        <Tab.Screen name='About'>
+        <Tab.Screen 
+          name='About' 
+          options={{ 
+            title: i18n.t(LocalizationKey.ABOUT_DISH) 
+          }}
+        >
           {(props) => (
             <About
+              {...props}
+            />
+          )}
+        </Tab.Screen>
+        <Tab.Screen 
+          name='Recipe'
+          options={{ 
+            title: i18n.t(LocalizationKey.RECIPE_DISH) 
+          }} 
+        >
+          {(props) => (
+            <Recipe
               {...props}
             />
           )}

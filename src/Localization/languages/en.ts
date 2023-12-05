@@ -41,7 +41,8 @@ export const en = {
   [LocalizationKey.SEARCH]: 'Search',
   [LocalizationKey.SEARCH_RESULT]: 'Search result',
   [LocalizationKey.SIGN_UP]: 'Sign up',
-  [LocalizationKey.YOUR_LIST]: 'Your list',
+  [LocalizationKey.YOUR_LIST]: 'Favorite list',
+  [LocalizationKey.LOGOUT]: 'Logout',
 
   [LocalizationKey.EMAIL]: 'Email',
   [LocalizationKey.PASSWORD]: 'Password',
@@ -56,4 +57,20 @@ export const en = {
   [LocalizationKey.VERIFY]: 'Verify',
   [LocalizationKey.DO_NOT_HAVE_EMAIL]: 'Don\'t have any email?',
   [LocalizationKey.SEND_AGAIN]: 'Send again',
+
+  [LocalizationKey.ABOUT_DISH]: 'About',
+  [LocalizationKey.RECIPE_DISH]: 'Recipe',
+  [LocalizationKey.NUTRIENT]: 'Nutrient',
+  [LocalizationKey.DESCRIPTION]: 'Description',
+  [LocalizationKey.INGREDIENT]: 'Ingredient',
+  [LocalizationKey.CALORY]: 'Calory',
+  [LocalizationKey.FAT]: 'Fat',
+  [LocalizationKey.PROTEIN]: 'Protein',
+  [LocalizationKey.CARB]: 'Carb',
+
+  [LocalizationKey.MY_LIST]: 'My list',
+  [LocalizationKey.ADD_NEW_LIST]: 'Add new list',
+  [LocalizationKey.CREATE]: 'Create',
+  [LocalizationKey.CANCEL]: 'Cancel',
+  [LocalizationKey.YOUR_LIST_NAME]: 'List name',
 };

@@ -15,6 +15,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useEffect, useState } from "react";
 import { RootStackParamList } from "..";
+import { LocalizationKey, i18n } from "@/Localization";
 
 const Tab = createBottomTabNavigator<BottomTabsParamList>();
 
@@ -61,7 +62,8 @@ export const MainNavigator = ({ route, navigation}: MainNavigatorProps) => {
         options={{
           tabBarIcon: ({ focused }) => (
             <FontAwesomeIcon icon={faHouse} size={20} color={focused ? Colors.PRIMARY : Colors.BACKGROUND} />
-          )
+          ),
+          title: i18n.t(LocalizationKey.HOME)
         }}
       />
       <Tab.Screen
@@ -70,7 +72,8 @@ export const MainNavigator = ({ route, navigation}: MainNavigatorProps) => {
         options={{
           tabBarIcon: ({ focused }) => (
             <FontAwesomeIcon icon={faHeart} size={20} color={focused ? Colors.PRIMARY : Colors.BACKGROUND} />
-          )
+          ),
+          title: i18n.t(LocalizationKey.FAVORITE)
         }}
       />
       <Tab.Screen
@@ -97,7 +100,8 @@ export const MainNavigator = ({ route, navigation}: MainNavigatorProps) => {
         options={{
           tabBarIcon: ({ focused }) => (
             <FontAwesomeIcon icon={faSearch} size={20} color={focused ? Colors.PRIMARY : Colors.BACKGROUND} />
-          )
+          ),
+          title: i18n.t(LocalizationKey.SEARCH)
         }}
       />
       <Tab.Screen
@@ -106,7 +110,8 @@ export const MainNavigator = ({ route, navigation}: MainNavigatorProps) => {
         options={{
           tabBarIcon: ({ focused }) => (
             <FontAwesomeIcon icon={faUser} size={20} color={focused ? Colors.PRIMARY : Colors.BACKGROUND} />
-          )
+          ),
+          title: i18n.t(LocalizationKey.PROFILE)
         }}
       />
     </Tab.Navigator>

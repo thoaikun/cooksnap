@@ -4,6 +4,7 @@ import { MainScreens, RootScreens } from "..";
 import { FavoriteDetail } from "./FavoriteDetail";
 import { useEffect } from "react";
 import FilledButton from "@/Components/Button/FilledButton";
+import { LocalizationKey, i18n } from "@/Localization";
 
 type FavoritesScreenNavigatorProps = NativeStackScreenProps<
   RootStackParamList,
@@ -23,7 +24,7 @@ const FavoriteDetailContainer = ({
       headerBackTitle: ' ',
       headerRight: () => (
         <FilledButton
-          title="Add dish"
+          title={i18n.t(LocalizationKey.ADD_DISH)}
           style={{ paddingVertical: 5 }}
         />
       )

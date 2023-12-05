@@ -1,5 +1,4 @@
 import { RootScreens } from "@/Screens";
-import FavoriteDetailContainer from "@/Screens/FavoritesDetail/FavoritesDetailContainer";
 import { ForgotPasswordContainer } from "@/Screens/ForgotPassword/ForgotPasswordContainer";
 import { LoginContainer } from "@/Screens/Login/LoginContainer";
 import { SignUpContainer } from "@/Screens/SignUp/SignUpContainer";
@@ -12,6 +11,7 @@ import React from "react";
 import { StatusBar } from "react-native";
 import { MainNavigator } from "./Main";
 import DishDetailContainer from "@/Screens/DishDetail/DishDetailContainer";
+import FavoriteDetailContainer from "@/Screens/FavoriteDetail/FavoriteDetailContainer";
 
 export type RootStackParamList = {
   [RootScreens.MAIN]: {
@@ -44,7 +44,7 @@ const ApplicationNavigator = () => {
       <StatusBar />
       <RootStack.Navigator 
         screenOptions={{ headerShown: false }}
-        initialRouteName={ RootScreens.DISH_DETAIL }
+        initialRouteName={ RootScreens.MAIN }
       >
         <RootStack.Screen
           name={RootScreens.LOGIN}

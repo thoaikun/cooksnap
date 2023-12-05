@@ -7,6 +7,7 @@ import { FontSize } from "@/Theme/Variables";
 import React, { useState } from "react";
 import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { RootScreens } from "..";
+import { LocalizationKey, i18n } from "@/Localization";
 
 interface IProps {
   onNavigate: (string: RootScreens, params?: any) => void;
@@ -29,16 +30,16 @@ const Favorite = ({ onNavigate }: IProps) => {
     <ScrollView contentContainerStyle={{ paddingHorizontal: 10 }}>
       <FavoriteCard
         type={FavoriteType.FAVORITE}
-        title="My favorite"
+        title={i18n.t(LocalizationKey.YOUR_LIST)}
       />
       <FavoriteCard 
         type={FavoriteType.YOUR_LIST}
-        title="My list"
+        title={i18n.t(LocalizationKey.MY_LIST)}
         onPress={() => onNavigate(RootScreens.FAVORITE_DETAIL)}
       />
       <FavoriteCard 
         type={FavoriteType.ADD}
-        title="Add"
+        title={i18n.t(LocalizationKey.ADD_NEW_LIST)}
         onPress={handleOpenModal}
       />
 
@@ -46,19 +47,19 @@ const Favorite = ({ onNavigate }: IProps) => {
         <View style={styles.modalContainer}>
           <Pressable onPress={handleCloseModal} style={styles.overlay} />
           <View style={styles.content}>
-            <Text style={styles.modalTitle}>Tạo danh sách mới</Text>
+            <Text style={styles.modalTitle}>{i18n.t(LocalizationKey.ADD_NEW_LIST)}</Text>
             <Input 
               controller={listNameController}
-              label="Tên danh sách"
+              label={i18n.t(LocalizationKey.YOUR_LIST_NAME)}
               autoFocus
             />
             <View style={styles.modalButtonContainer}>
               <TextButton
-                title="Hủy"
+                title={i18n.t(LocalizationKey.CANCEL)}
                 onPress={handleCloseModal}
               />
               <FilledButton
-                title="Tạo"
+                title={i18n.t(LocalizationKey.CREATE)}
                 onPress={handleCloseModal}
               />
             </View>
@@ -98,7 +99,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
     columnGap: 10,
-  }
+  },
 });
 
 export default Favorite

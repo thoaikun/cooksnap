@@ -1,4 +1,5 @@
 import FilledButton from "@/Components/Button/FilledButton";
+import { LocalizationKey, i18n } from "@/Localization";
 import { Colors, FontSize } from "@/Theme/Variables";
 import { Text, View, StyleSheet, ScrollView, Image } from "react-native";
 
@@ -41,7 +42,7 @@ export const Profile = () => {
 
       <View style={styles.buttonContainer}>
         <FilledButton
-          title="Logout"
+          title={i18n.t(LocalizationKey.LOGOUT)}
           onPress={() => {}}
           style={{ backgroundColor: Colors.ERROR }}
         />
