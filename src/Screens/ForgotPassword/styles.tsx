@@ -39,6 +39,10 @@ const styles = StyleSheet.create({
     sendAgain: {
         display: 'flex',
         flexDirection: 'row',
+    },
+    error: {
+        color: Colors.ERROR,
+        fontSize: FontSize.SMALL,
     }
 })
 

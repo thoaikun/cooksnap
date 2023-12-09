@@ -1,15 +1,33 @@
 import FilledButton from "@/Components/Button/FilledButton";
 import { LocalizationKey, i18n } from "@/Localization";
+import { IProfile } from "@/Model/profile";
+import { profileSelector } from "@/Store/selector";
 import { Colors, FontSize } from "@/Theme/Variables";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Text, View, StyleSheet, ScrollView, Image } from "react-native";
+import { useSelector } from "react-redux";
+import { RootScreens } from "..";
 
-export const Profile = () => {
+interface IProps {  
+  onNavigate: (string: RootScreens, params?: any) => void;
+}
+
+export const Profile = ({ onNavigate }: IProps) => {
+  const profile: IProfile = useSelector(profileSelector)
+
+  const handleLogout = async () => {
+    // remove local storage
+    await AsyncStorage.removeItem('accessToken')
+    await AsyncStorage.removeItem('firstTimeOpenApp')
+    onNavigate(RootScreens.LOGIN)
+  }
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.headerContainer}>
         <Image
             source={{
-                uri: `https://api.dicebear.com/7.x/thumbs/png?seed=Callie`,
+                uri: `https://api.dicebear.com/7.x/thumbs/png?seed=${profile?.email}`,
             }}
             style={styles.avatar}
         />
@@ -17,8 +35,8 @@ export const Profile = () => {
           <Text style={[styles.username]}>
               ThoaiLe
           </Text>
-          <Text style={styles.email}>
-              email
+          <Text style={styles.email} numberOfLines={1} ellipsizeMode='tail'>
+              {profile?.email ?? 'Không rõ'}
           </Text>
         </View>
       </View>
@@ -29,21 +47,21 @@ export const Profile = () => {
               Name:
           </Text>
           <Text style={styles.text}>
-              name
+              {profile?.fullName ?? 'Không rõ'}
           </Text>
         </View>
         <View style={styles.textContainer}>
           <Text style={styles.text}>
               Day of Birth:
           </Text>
-          <Text style={styles.text}>20/09/2002</Text>
+          <Text style={styles.text}>{profile?.dayOfBirth ?? 'Không rõ'}</Text>
         </View>
       </View>
 
       <View style={styles.buttonContainer}>
         <FilledButton
           title={i18n.t(LocalizationKey.LOGOUT)}
-          onPress={() => {}}
+          onPress={handleLogout}
           style={{ backgroundColor: Colors.ERROR }}
         />
       </View>
@@ -76,7 +94,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   email: {
-    fontSize: FontSize.REGULAR,
+    maxWidth: 220,
+    fontSize: FontSize.SMALL,
     color: Colors.SECONDARY_TEXT
   },
   text: {

@@ -1,23 +1,18 @@
 import FilledButton from "@/Components/Button/FilledButton";
 import OutlinedButton from "@/Components/Button/OutlinedButton";
 import TextButton from "@/Components/Button/TextButton";
+import Card, { CardDirection } from "@/Components/Card/Card";
 import Input from "@/Components/Input/Input";
-import { User } from "@/Services";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faEnvelope } from '@fortawesome/free-regular-svg-icons/faEnvelope'
-import React from "react";
-import { View } from "react-native";
 import useInputController from "@/Components/Input/useInputController";
 import { Colors } from "@/Theme/Variables";
-import Card, { CardDirection } from "@/Components/Card/Card";
-import { faStar} from "@fortawesome/free-solid-svg-icons/faStar"
+import { faEnvelope } from '@fortawesome/free-regular-svg-icons/faEnvelope';
+import { faStar } from "@fortawesome/free-solid-svg-icons/faStar";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import React from "react";
+import { View } from "react-native";
 
-export interface IHomeProps {
-  data: User | undefined;
-  isLoading: boolean;
-}
 
-export const Home = (props: IHomeProps) => {
+export const Home = () => {
   const passwordController = useInputController()
 
   return (

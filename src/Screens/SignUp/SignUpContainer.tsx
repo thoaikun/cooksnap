@@ -1,8 +1,8 @@
-import React from "react";
-import { SignUp } from "./SignUp";
 import { RootStackParamList } from "@/Navigation";
-import { RootScreens } from "..";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import React from "react";
+import { RootScreens } from "..";
+import { SignUp } from "./SignUp";
 
 type SignUpScreenNavigatorProps = NativeStackScreenProps<
   RootStackParamList,
@@ -16,5 +16,5 @@ export const SignUpContainer = ({
     navigation.navigate(screen, params);
   }
 
-  return <SignUp onNavigate={onNavigate} />;
+  return <SignUp onNavigate={onNavigate}/>;
 }

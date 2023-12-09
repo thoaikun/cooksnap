@@ -8,6 +8,7 @@ interface IProps {
     prefix?: JSX.Element,
     controller?: InputController
     autoFocus?: boolean
+    type?: 'text' | 'password'
 }
 
 const Input = ({
@@ -15,7 +16,8 @@ const Input = ({
     placeholder,
     prefix,
     controller,
-    autoFocus
+    autoFocus,
+    type = 'text'
 }: IProps) => {
     return (
         <View 
@@ -38,6 +40,7 @@ const Input = ({
                     onFocus={() => controller?.setIsFocused(true)}
                     onBlur={() => controller?.setIsFocused(false)}
                     autoFocus={autoFocus}
+                    secureTextEntry={type === 'password'}
                 />
             </View>
         </View>

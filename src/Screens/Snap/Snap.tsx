@@ -1,11 +1,17 @@
 import FilledButton from '@/Components/Button/FilledButton';
 import Card, { CardDirection } from '@/Components/Card/Card';
 import Divider from '@/Components/Divider/Divider';
+import { Recipe } from '@/Model/foodRecommendation';
+import foodApi from '@/Services/food';
 import { Colors } from '@/Theme/Variables';
+import { getImageExtension } from '@/Utils';
+import { useMutation } from '@tanstack/react-query';
 import { Camera, CameraCapturedPicture, CameraPictureOptions, CameraType } from 'expo-camera';
-import { useRef, useState } from 'react';
-import { Button, Dimensions, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { SaveFormat, manipulateAsync } from 'expo-image-manipulator';
+import { useEffect, useRef, useState } from 'react';
+import { ActivityIndicator, Button, Dimensions, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { RootScreens } from '..';
+import { FlatList } from 'native-base';
 
 interface IProps {
   onNavigate: (screen: RootScreens, params?: any) => void;
@@ -14,9 +20,37 @@ interface IProps {
 const Snap = ({ onNavigate }: IProps) => {
   const [type, setType] = useState(CameraType.back);
   const [photo, setPhoto] = useState<CameraCapturedPicture | undefined>(undefined);
+  const [photoExtension, setPhotoExtensions] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const [recipes, setRecipes] = useState<Recipe[]>([]);
+  const [shownRecipes, setShownRecipes] = useState<Recipe[]>([]);
+  const [page, setPage] = useState<number>(1);
+
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const cameraRef = useRef<Camera>(null);
+
+  const foodRecommendationMutation = useMutation({
+    mutationFn: async (payload: FormData) => {
+      return await foodApi.getRecommendationFromImage(payload)
+    },
+    onSuccess: (res) => {
+      setRecipes(res)
+      setShownRecipes(res.slice(0, page * 10))
+    },
+    onError: (err) => {
+      console.log(err)
+    }
+  })
+
+  const compressPhoto = async (photo: CameraCapturedPicture | undefined) => {
+    if (!photo) return
+    const manipResult = await manipulateAsync(
+      photo.uri,
+      [{ resize: { width: 1080 } }],
+      { compress: 0.7, format: SaveFormat.JPEG }
+    );
+    return manipResult
+  }
 
   const handleTakePhoto = async () => {
     setLoading(true);
@@ -27,9 +61,39 @@ const Snap = ({ onNavigate }: IProps) => {
     }
 
     let snappedPhoto = await cameraRef?.current?.takePictureAsync(options);
+    snappedPhoto = await compressPhoto(snappedPhoto);
     setPhoto(snappedPhoto);
+    setPhotoExtensions(getImageExtension(snappedPhoto?.uri) ?? '');
     setLoading(false);
   }
+
+  const handleLoadMore = () => {
+    if (page <= 0)
+      return
+    if (page > Math.ceil(recipes.length / 10))  
+      return
+    setPage(page + 1)
+  }
+
+  useEffect(() => {
+    if (!photo || !photoExtension) return
+    const formData = new FormData()
+    formData.append(
+      'image',
+      {
+        uri: photo?.uri,
+        name: `photo.${photoExtension}`,
+        type: `image/${photoExtension}`,
+      }
+    )
+    foodRecommendationMutation.mutate(formData)
+  }, [photo, photoExtension])
+
+  useEffect(() => {
+    if (page === 1) return
+    setShownRecipes(recipes.slice(0, page * 10))
+  }, [page])
+
 
   if (!permission) {
     // Camera permissions are still loading
@@ -48,51 +112,53 @@ const Snap = ({ onNavigate }: IProps) => {
 
   if (photo) {
     return (
-      <ScrollView>
+      <View>
         <View style={styles.resultImageContainer}>
           <Image source={{ uri: photo.uri }} style={styles.resultImage} resizeMode='cover'/>
           <FilledButton 
             title='Snap again'
             style={styles.snapAgainBtn}
+            onPress={() => {
+              setPhoto(undefined)
+              setPhotoExtensions('')
+              setPage(1)
+            }}
           />
         </View>
-        <View style={styles.listDishContainer}>
-          <Card 
-            imageUrl="https://images.unsplash.com/photo-1602253057119-44d745d9b860?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZGlzaHxlbnwwfHwwfHx8MA%3D%3D"
-            title='Tên món ăn ở đây'
-            subtitle="Mô tả món ăn ở đây nha, có handle overflow text òi nên không cần lo nữa ạ"
-            direction={CardDirection.ROW}
-          />
-          <Divider />
-          <Card 
-            imageUrl="https://images.unsplash.com/photo-1602253057119-44d745d9b860?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZGlzaHxlbnwwfHwwfHx8MA%3D%3D"
-            title='Tên món ăn ở đây'
-            subtitle="Mô tả món ăn ở đây nha, có handle overflow text òi nên không cần lo nữa ạ"
-            direction={CardDirection.ROW}
-          />
-          <Divider />
-          <Card 
-            imageUrl="https://images.unsplash.com/photo-1602253057119-44d745d9b860?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZGlzaHxlbnwwfHwwfHx8MA%3D%3D"
-            title='Tên món ăn ở đây'
-            subtitle="Mô tả món ăn ở đây nha, có handle overflow text òi nên không cần lo nữa ạ"
-            direction={CardDirection.ROW}
-          />
-          <Divider />
-          <Card 
-            imageUrl="https://images.unsplash.com/photo-1602253057119-44d745d9b860?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZGlzaHxlbnwwfHwwfHx8MA%3D%3D"
-            title='Tên món ăn ở đây'
-            subtitle="Mô tả món ăn ở đây nha, có handle overflow text òi nên không cần lo nữa ạ"
-            direction={CardDirection.ROW}
-          />
-          <Divider />
-          <Card 
-            imageUrl="https://images.unsplash.com/photo-1602253057119-44d745d9b860?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZGlzaHxlbnwwfHwwfHx8MA%3D%3D"
-            title='Tên món ăn ở đây'
-            subtitle="Mô tả món ăn ở đây nha, có handle overflow text òi nên không cần lo nữa ạ"
-            direction={CardDirection.ROW}
-          />
+        <View>
+          {foodRecommendationMutation.isPending ? 
+            <View style={{ height: 400, justifyContent: 'center', alignItems: 'center' }}>
+              <ActivityIndicator size='large' color={Colors.PRIMARY} />
+            </View>
+            :
+            <FlatList
+              style={styles.listDishContainer}
+              data={shownRecipes}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({ item }) => (
+                <Card 
+                  imageUrl={item.image}
+                  title={item.label}
+                  subtitle={item.shareAs}
+                  direction={CardDirection.ROW} 
+                />
+              )}
+              onEndReached={handleLoadMore}
+              onEndReachedThreshold={0.1}
+              ListFooterComponent={() => 
+                page < Math.ceil(recipes.length / 10) ?
+                  <View style={{ height: 100, justifyContent: 'center', alignItems: 'center' }}>
+                    <ActivityIndicator size='large' color={Colors.PRIMARY} />
+                  </View>
+                  :
+                  null
+              }
+              ItemSeparatorComponent={() => <Divider />}
+              showsVerticalScrollIndicator={false}
+            />
+          }
         </View>
-      </ScrollView>
+      </View>
     )
   }
 
@@ -151,6 +217,8 @@ const styles = StyleSheet.create({
 
   listDishContainer: {
     marginTop: 15,
+    marginHorizontal: 15,
+    height: Dimensions.get('window').height - 350,
   }
 });
 

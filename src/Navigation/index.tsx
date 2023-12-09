@@ -7,11 +7,14 @@ import { WelcomeContainer } from "@/Screens/Welcome/WelcomeContainer";
 import { Colors } from "@/Theme/Variables";
 import { DefaultTheme, NavigationContainer, Theme } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import React from "react";
+import React, { useEffect } from "react";
 import { StatusBar } from "react-native";
 import { MainNavigator } from "./Main";
 import DishDetailContainer from "@/Screens/DishDetail/DishDetailContainer";
 import FavoriteDetailContainer from "@/Screens/FavoriteDetail/FavoriteDetailContainer";
+import { useSelector } from "react-redux";
+import { profileSelector } from "@/Store/selector";
+import base from "@/Services/base";
 
 export type RootStackParamList = {
   [RootScreens.MAIN]: {
@@ -44,7 +47,7 @@ const ApplicationNavigator = () => {
       <StatusBar />
       <RootStack.Navigator 
         screenOptions={{ headerShown: false }}
-        initialRouteName={ RootScreens.MAIN }
+        initialRouteName={ RootScreens.LOGIN }
       >
         <RootStack.Screen
           name={RootScreens.LOGIN}

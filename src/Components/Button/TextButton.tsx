@@ -5,15 +5,24 @@ interface IProps {
     title: string
     onPress?: () => void,
     style?: StyleProp<ViewStyle>
+    disabled?: boolean
 }
 
-const TextButton = ({ title, onPress, style }: IProps) => {
+const TextButton = ({ title, onPress, style, disabled }: IProps) => {
     return (
         <TouchableOpacity 
             style={[styles.container, style]}
             onPress={onPress}
+            disabled={disabled}
         >
-            <Text style={styles.text}>{title}</Text>
+            <Text 
+                style={[
+                    styles.text,
+                    disabled && { color: Colors.BACKGROUND }
+                ]}
+            >
+                {title}
+            </Text>
         </TouchableOpacity>
     )
 }

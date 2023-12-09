@@ -1,53 +1,14 @@
-import { API } from "@/Services/base";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import { setupListeners } from "@reduxjs/toolkit/query";
-import {
-  persistReducer,
-  persistStore,
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
-} from "redux-persist";
-import { homeReducers, themeReducers } from "./reducers";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import profileStore from "./reducers/profile";
 
-const reducers = combineReducers({
-  api: API.reducer,
-  theme: themeReducers,
-  home: homeReducers,
+const rootReducer = combineReducers({
+  profileStore: profileStore.reducer
 });
-
-const persistConfig = {
-  key: "root",
-  storage: AsyncStorage,
-  whitelist: ["theme"],
-};
-
-const persistedReducer = persistReducer(persistConfig, reducers);
 
 const store = configureStore({
-  reducer: persistedReducer,
-  middleware: (getDefaultMiddleware) => {
-    const middlewares = getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
-    }).concat(API.middleware);
-
-    // if (__DEV__ && !process.env.JEST_WORKER_ID) {
-    //   const createDebugger = require("redux-flipper").default;
-    //   middlewares.push(createDebugger());
-    // }
-
-    return middlewares;
-  },
+  reducer: rootReducer,
 });
 
-const persistor = persistStore(store);
+export type RootState = ReturnType<typeof rootReducer>;
 
-setupListeners(store.dispatch);
-
-export { store, persistor };
+export default store;
