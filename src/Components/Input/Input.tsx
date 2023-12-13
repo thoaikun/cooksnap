@@ -6,6 +6,7 @@ interface IProps {
     label: string,
     placeholder?: string,
     prefix?: JSX.Element,
+    postfix?: JSX.Element,
     controller?: InputController
     autoFocus?: boolean
     type?: 'text' | 'password'
@@ -15,6 +16,7 @@ const Input = ({
     label,
     placeholder,
     prefix,
+    postfix,
     controller,
     autoFocus,
     type = 'text'
@@ -43,6 +45,8 @@ const Input = ({
                     secureTextEntry={type === 'password'}
                 />
             </View>
+
+            {postfix}
         </View>
     )
 }

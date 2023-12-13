@@ -103,7 +103,7 @@ const Snap = ({ onNavigate }: IProps) => {
   if (!permission.granted) {
     // Camera permissions are not granted yet
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, { flex: 1, justifyContent: 'center', alignItems: 'center'}]}>
         <Text style={{ textAlign: 'center' }}>We need your permission to show the camera</Text>
         <Button onPress={requestPermission} title="grant permission" />
       </View>
@@ -139,8 +139,9 @@ const Snap = ({ onNavigate }: IProps) => {
                 <Card 
                   imageUrl={item.image}
                   title={item.label}
-                  subtitle={item.shareAs}
+                  subtitle={item.healthLabels.slice(0, 5).join(', ')}
                   direction={CardDirection.ROW} 
+                  onPress={() => onNavigate(RootScreens.DISH_DETAIL, { dish: item })}
                 />
               )}
               onEndReached={handleLoadMore}

@@ -51,7 +51,7 @@ export enum LocalizationKey {
   ABOUT_DISH = 'ABOUT_DISH',
   RECIPE_DISH = 'RECIPE_DISH',
   NUTRIENT = 'NUTRIENT',
-  DESCRIPTION = 'DESCRIPTION',
+  TAG = 'TAG',
   INGREDIENT = 'INGREDIENT',
   CALORY = 'CALORY',
   FAT = 'FAT',
@@ -64,4 +64,5 @@ export enum LocalizationKey {
   LIST_NAME = 'LIST_NAME',
   CREATE = 'CREATE',
   CANCEL = 'CANCEL',
+  NO_FAVORITE_LIST = 'NO_FAVORITE_LIST',
 }

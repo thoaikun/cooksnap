@@ -2,9 +2,20 @@ import { View, Text, ScrollView } from "react-native"
 import * as Progress from 'react-native-progress'
 import styles from "./styles"
 import { LocalizationKey, i18n } from "@/Localization"
+import { NutrientTag, Recipe } from "@/Model/foodRecommendation"
+import { useState } from "react"
+
+interface IProps {
+    dish: Recipe
+}
+
+const AboutTab = ({ dish }: IProps) => {
+    const [calories, setCalories] = useState<number>(dish.calories)
+    const [protein, setProtein] = useState<number | undefined>(dish.digest.find((item) => item.tag === NutrientTag.PROCNT)?.total)
+    const [carb, setCarb] = useState<number | undefined>(dish.digest.find((item) => item.tag === NutrientTag.CHOCDF)?.total)
+    const [fat, setFat] = useState<number | undefined>(dish.digest.find((item) => item.tag === NutrientTag.FAT)?.total)
 
 
-const About = (props: any) => {
     return (
         <ScrollView style={styles.tabBody}>
             {/* Nutrient section */}
@@ -22,7 +33,7 @@ const About = (props: any) => {
                         </Text>
                         <Progress.Bar
                             style={styles.progressBar}
-                            progress={23}
+                            progress={calories / 300}
                             width={250}
                             height={15}
                             color={'#E3A74D'}
@@ -40,7 +51,7 @@ const About = (props: any) => {
                         </Text>
                         <Progress.Bar
                             style={styles.progressBar}
-                            progress={50}
+                            progress={protein ? protein / 300 : 0}
                             width={250}
                             height={15}
                             color={'#DC4040'}
@@ -58,7 +69,7 @@ const About = (props: any) => {
                         </Text>
                         <Progress.Bar
                             style={styles.progressBar}
-                            progress={10}
+                            progress={carb ? carb / 300 : 0}
                             width={250}
                             height={15}
                             color={'#3DC73A'}
@@ -76,7 +87,7 @@ const About = (props: any) => {
                         </Text>
                         <Progress.Bar
                             style={styles.progressBar}
-                            progress={80}
+                            progress={fat ? fat / 300 : 0}
                             width={250}
                             height={15}
                             color={'#DD34AE'}
@@ -86,21 +97,19 @@ const About = (props: any) => {
                 </View>
             </View>
 
-            {/* Description section */}
-            <View style={styles.section}>
-                <Text style={styles.sectionTitle}>{i18n.t(LocalizationKey.DESCRIPTION)}</Text>
-                <View style={styles.sectionContainer}>
-                    <Text style={styles.sectionText}></Text>
-                </View>
-            </View>
-
             <View style={styles.section}>
                 <Text style={styles.sectionTitle}>{i18n.t(LocalizationKey.INGREDIENT)}</Text>
-                
+                <View style={styles.sectionContainer}>
+                    {dish.ingredientLines.map((item, index) => (
+                        <Text key={index} style={styles.sectionText}>
+                            {item}
+                        </Text>
+                    ))}
+                </View>
             </View>
         </ScrollView>
     )
 }
 
 
-export default About
+export default AboutTab

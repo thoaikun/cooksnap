@@ -4,7 +4,7 @@ import { IProfile } from "@/Model/profile";
 import { profileSelector } from "@/Store/selector";
 import { Colors, FontSize } from "@/Theme/Variables";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Text, View, StyleSheet, ScrollView, Image } from "react-native";
+import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useSelector } from "react-redux";
 import { RootScreens } from "..";
 

@@ -5,17 +5,23 @@ export interface InputController {
     isFocused: boolean
     setValue: (value: string) => void,
     setIsFocused: (value: boolean) => void
+    clear(): () => void
 }
 
 const useInputController = (): InputController => {
     const [isFocused, setIsFocused] = useState<boolean>(false)
     const [value, setValue] = useState<string>('')
 
+    const clear = () => {
+        setValue('')
+    }
+
     return {
         value,
         isFocused,
         setValue,
-        setIsFocused
+        setIsFocused,
+        clear
     } as InputController
 }
 

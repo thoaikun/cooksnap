@@ -1,4 +1,4 @@
-import { FontSize } from '@/Theme/Variables'
+import { Colors, FontSize } from '@/Theme/Variables'
 import { StyleSheet } from 'react-native'
 
 const styles = StyleSheet.create({
@@ -83,6 +83,38 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+
+    stepContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 10,
+    },
+    stepOutlineBox: {
+        width: 40,
+        height: 40,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 100,
+        backgroundColor: Colors.PRIMARY,
+    },
+    stepInlineBox: {
+        width: 30,
+        height: 30,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 100,
+        backgroundColor: Colors.WHITE,
+    },
+    stepText: {
+        color: Colors.BLACK,
+        fontWeight: 'bold',
+        fontSize: FontSize.EXTRA_SMALL,
+    },
+    stepContent: {
+        fontSize: FontSize.SMALL,
+        flex: 1,
+    }
 })
 
 export default styles

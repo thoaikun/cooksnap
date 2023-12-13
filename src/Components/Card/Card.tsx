@@ -1,5 +1,5 @@
 import { Colors, FontSize } from "@/Theme/Variables"
-import { View, Text, Image, StyleSheet } from "react-native"
+import { View, Text, Image, StyleSheet, Pressable } from "react-native"
 
 export enum CardDirection {
     ROW = 'row',
@@ -12,6 +12,7 @@ interface IProps {
     subtitle: string,
     direction?: CardDirection
     tail?: JSX.Element
+    onPress?: () => void
 }
 
 const Card = ({
@@ -19,11 +20,13 @@ const Card = ({
     title,
     subtitle,
     direction,
-    tail
+    tail,
+    onPress
 }: IProps) => {
     return (
-        <View
+        <Pressable
             style={direction == CardDirection.ROW ?  styles.containerRow : styles.containerColumn}
+            onPress={onPress}
         >
             <Image 
                 style={direction === CardDirection.ROW ? styles.imageRow : styles.imageColumn}
@@ -58,7 +61,7 @@ const Card = ({
             <View style={styles.tail}>
                 {tail}
             </View>
-        </View>
+        </Pressable>
     )
 }
 

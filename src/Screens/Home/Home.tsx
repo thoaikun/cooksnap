@@ -4,12 +4,18 @@ import TextButton from "@/Components/Button/TextButton";
 import Card, { CardDirection } from "@/Components/Card/Card";
 import Input from "@/Components/Input/Input";
 import useInputController from "@/Components/Input/useInputController";
+import { IProfile } from "@/Model/profile";
+import userApi from "@/Services/user";
+import profileStore from "@/Store/reducers/profile";
+import { profileSelector } from "@/Store/selector";
 import { Colors } from "@/Theme/Variables";
 import { faEnvelope } from '@fortawesome/free-regular-svg-icons/faEnvelope';
 import { faStar } from "@fortawesome/free-solid-svg-icons/faStar";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import React from "react";
+import { useQuery } from "@tanstack/react-query";
+import React, { useEffect } from "react";
 import { View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 
 
 export const Home = () => {

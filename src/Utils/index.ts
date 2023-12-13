@@ -16,3 +16,11 @@ export const getImageExtension = (uri: string | undefined) => {
   
     return fileExtension?.toLowerCase(); // Return the lowercase extension
 };
+
+export const extractIdFromUrl = (url: string) => {
+    const pattern = /#recipe_(\w+)$/;
+    const match = pattern.exec(url);
+  
+    const recipeId = match?.[0] ?? '0';
+    return recipeId;
+  }

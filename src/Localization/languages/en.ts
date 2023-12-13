@@ -61,7 +61,7 @@ export const en = {
   [LocalizationKey.ABOUT_DISH]: 'About',
   [LocalizationKey.RECIPE_DISH]: 'Recipe',
   [LocalizationKey.NUTRIENT]: 'Nutrient',
-  [LocalizationKey.DESCRIPTION]: 'Description',
+  [LocalizationKey.TAG]: 'HashTag',
   [LocalizationKey.INGREDIENT]: 'Ingredient',
   [LocalizationKey.CALORY]: 'Calory',
   [LocalizationKey.FAT]: 'Fat',
@@ -73,4 +73,5 @@ export const en = {
   [LocalizationKey.CREATE]: 'Create',
   [LocalizationKey.CANCEL]: 'Cancel',
   [LocalizationKey.YOUR_LIST_NAME]: 'List name',
+  [LocalizationKey.NO_FAVORITE_LIST]: 'You don\'t have any favorite list',
 };

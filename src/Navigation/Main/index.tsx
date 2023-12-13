@@ -16,6 +16,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useEffect, useState } from "react";
 import { RootStackParamList } from "..";
 import { LocalizationKey, i18n } from "@/Localization";
+import usePrepareData from "@/Hooks/usePrepareData";
 
 const Tab = createBottomTabNavigator<BottomTabsParamList>();
 
@@ -47,6 +48,7 @@ export const MainNavigator = ({ route, navigation}: MainNavigatorProps) => {
         e.preventDefault()
     })
   }, [])
+
 
   return (
     <Tab.Navigator

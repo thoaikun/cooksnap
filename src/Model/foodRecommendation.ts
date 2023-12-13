@@ -105,37 +105,72 @@ export interface Recipe {
     yield:             number;
     dietLabels:        string[];
     healthLabels:      string[];
-    cautions:          string[];
+    cautions:          any[];
     ingredientLines:   string[];
     ingredients:       Ingredient[];
     calories:          number;
-    glycemicIndex:     number;
     totalCO2Emissions: number;
     co2EmissionsClass: string;
     totalWeight:       number;
+    totalTime:         number;
     cuisineType:       string[];
     mealType:          string[];
     dishType:          string[];
-    instructions:      string[];
-    tags:              string[];
-    externalId:        string;
-    totalNutrients:    TotalDaily;
-    totalDaily:        TotalDaily;
+    totalNutrients:    { [key: string]: Total };
+    totalDaily:        { [key: string]: Total };
     digest:            Digest[];
+    instructionLines:  any[];
 }
 
 export interface Digest {
     label:        string;
     tag:          string;
-    schemaOrgTag: string;
+    schemaOrgTag: null | string;
     total:        number;
     hasRDI:       boolean;
     daily:        number;
-    unit:         string;
-    sub:          TotalDaily;
+    unit:         Unit;
+    sub?:         Digest[];
 }
 
-export interface TotalDaily {
+export enum Unit {
+    Empty = "%",
+    G = "g",
+    Kcal = "kcal",
+    Mg = "mg",
+    Μg = "µg",
+}
+
+export enum NutrientTag {
+    ENERC_KCAL = 'ENERC_KCAL', 
+    FAT = 'FAT',
+    FASAT = 'FASAT',
+    CHOCDF  = 'CHOCDF',
+    FIBTG = 'FIBTG',
+    PROCNT = 'PROCNT',
+    CHOLE = 'CHOLE',
+    NA = 'NA',
+    CA = 'CA',
+    MG = 'MG',
+    K = 'K',
+    FE = 'FE',
+    ZN = 'ZN',
+    P = 'P',
+    VITA_RAE = 'VITA_RAE',
+    VITC = 'VITC',
+    THIA = 'THIA',
+    RIBF = 'RIBF',
+    NIA = 'NIA',
+    VITB6A = 'VITB6A',
+    FOLDFE = 'FOLDFE',
+    FOLFD = 'FOLFD',
+    FOLAC = 'FOLAC',
+    VITB12 = 'VITB12',
+    VITD = 'VITD',
+    TOCPHA = 'TOCPHA',
+    VITK1 = 'VITK1',
+    WATER = 'WATER',
+    SUGAR_ALCOHOL = 'Sugar.alcohol',
 }
 
 export interface Images {
@@ -152,10 +187,18 @@ export interface Large {
 }
 
 export interface Ingredient {
-    text:     string;
+    text:         string;
+    quantity:     number;
+    measure:      string;
+    food:         string;
+    weight:       number;
+    foodCategory: string;
+    foodId:       string;
+    image:        string;
+}
+
+export interface Total {
+    label:    string;
     quantity: number;
-    measure:  string;
-    food:     string;
-    weight:   number;
-    foodId:   string;
+    unit:     Unit;
 }

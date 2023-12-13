@@ -61,7 +61,7 @@ export const vi = {
   [LocalizationKey.ABOUT_DISH]: 'Thông tin',
   [LocalizationKey.RECIPE_DISH]: 'Công thức',
   [LocalizationKey.NUTRIENT]: 'Dinh dưỡng',
-  [LocalizationKey.DESCRIPTION]: 'Mô tả',
+  [LocalizationKey.TAG]: 'HashTag',
   [LocalizationKey.INGREDIENT]: 'Nguyên liệu',
   [LocalizationKey.CALORY]: 'Calo',
   [LocalizationKey.FAT]: 'Chất béo',
@@ -73,4 +73,5 @@ export const vi = {
   [LocalizationKey.CREATE]: 'Tạo',
   [LocalizationKey.CANCEL]: 'Hủy',
   [LocalizationKey.YOUR_LIST_NAME]: 'Tên danh sách',
+  [LocalizationKey.NO_FAVORITE_LIST]: 'Bạn chưa có danh sách yêu thích nào',
 };

@@ -2,20 +2,25 @@ import { Colors } from '@/Theme/Variables'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import * as React from 'react'
 import { Image, View } from 'react-native'
-import About from './AboutTab'
+import AboutTab from './AboutTab'
 import styles from './styles'
-import Recipe from './RecipeTab'
+import RecipeTab from './RecipeTab'
 import { LocalizationKey, i18n } from '@/Localization'
+import { Recipe } from '@/Model/foodRecommendation'
+
+interface IProps {
+  dish: Recipe
+}
 
 const Tab = createMaterialTopTabNavigator()
 
-const DishDetail = () => {
+const DishDetail = ({ dish }: IProps ) => {
   return (
     <>
       <View style={styles.videoContainer}>
             <Image
                 source={{
-                    uri: 'https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=768,574',
+                    uri: dish.image,
                 }}
                 style={styles.video}
             />
@@ -47,8 +52,9 @@ const DishDetail = () => {
           }}
         >
           {(props) => (
-            <About
+            <AboutTab
               {...props}
+              dish={dish}
             />
           )}
         </Tab.Screen>
@@ -59,8 +65,9 @@ const DishDetail = () => {
           }} 
         >
           {(props) => (
-            <Recipe
+            <RecipeTab
               {...props}
+              instructions={dish.instructionLines}
             />
           )}
         </Tab.Screen>

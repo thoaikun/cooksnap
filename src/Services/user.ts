@@ -1,7 +1,12 @@
 import base from "./base";
 
-const whoAmI = async () => {
-    const res = await base.get("/api/v1/users/profile");
+const whoAmI = async (accessToken: string) => {
+    const res = await base.get("/api/v1/users/profile", {
+        headers: {
+            Authorization: `Bearer ${accessToken}`
+        }
+    
+    });
     return res.data;
 }
 

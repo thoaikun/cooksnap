@@ -1,4 +1,7 @@
+import { Recipe } from "@/Model/foodRecommendation";
 import { RootScreens } from "@/Screens";
+import DishDetailContainer from "@/Screens/DishDetail/DishDetailContainer";
+import FavoriteDetailContainer from "@/Screens/FavoriteDetail/FavoriteDetailContainer";
 import { ForgotPasswordContainer } from "@/Screens/ForgotPassword/ForgotPasswordContainer";
 import { LoginContainer } from "@/Screens/Login/LoginContainer";
 import { SignUpContainer } from "@/Screens/SignUp/SignUpContainer";
@@ -7,14 +10,9 @@ import { WelcomeContainer } from "@/Screens/Welcome/WelcomeContainer";
 import { Colors } from "@/Theme/Variables";
 import { DefaultTheme, NavigationContainer, Theme } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import React, { useEffect } from "react";
+import React from "react";
 import { StatusBar } from "react-native";
 import { MainNavigator } from "./Main";
-import DishDetailContainer from "@/Screens/DishDetail/DishDetailContainer";
-import FavoriteDetailContainer from "@/Screens/FavoriteDetail/FavoriteDetailContainer";
-import { useSelector } from "react-redux";
-import { profileSelector } from "@/Store/selector";
-import base from "@/Services/base";
 
 export type RootStackParamList = {
   [RootScreens.MAIN]: {
@@ -25,8 +23,13 @@ export type RootStackParamList = {
   [RootScreens.SIGN_UP]: undefined
   [RootScreens.FORGOT_PASSWORD]: undefined
   [RootScreens.SNAP]: undefined
-  [RootScreens.FAVORITE_DETAIL]: undefined
-  [RootScreens.DISH_DETAIL]: undefined
+  [RootScreens.FAVORITE_DETAIL]: {
+    favoriteId: number
+    favoriteName: string
+  }
+  [RootScreens.DISH_DETAIL]: {
+    dish: Recipe
+  }
 };
 
 const MyTheme: Theme = {

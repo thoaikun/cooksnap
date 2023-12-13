@@ -3,11 +3,12 @@ import TextButton from "@/Components/Button/TextButton";
 import FavoriteCard, { FavoriteType } from "@/Components/FavoriteCard/FavoriteCard";
 import Input from "@/Components/Input/Input";
 import useInputController from "@/Components/Input/useInputController";
-import { FontSize } from "@/Theme/Variables";
-import React, { useState } from "react";
-import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
-import { RootScreens } from "..";
+import useFavorite from "@/Hooks/useFavorite";
 import { LocalizationKey, i18n } from "@/Localization";
+import { Colors, FontSize } from "@/Theme/Variables";
+import React, { useState } from "react";
+import { ActivityIndicator, Modal, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { RootScreens } from "..";
 
 interface IProps {
   onNavigate: (string: RootScreens, params?: any) => void;
@@ -16,27 +17,41 @@ interface IProps {
 const Favorite = ({ onNavigate }: IProps) => {
   const [isModalVisible, setModalVisible] = useState<boolean>(false);
   const listNameController = useInputController();
-
+  
   const handleOpenModal = () => {
     setModalVisible(true);
   }
-
+  
   const handleCloseModal = () => {
     setModalVisible(false);
   }
+  
+  const {
+    error,
+    favorites,
+    isLoading,
+    favoriteMutation,
+  } = useFavorite(listNameController, handleCloseModal)
 
+
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size='large' color={Colors.PRIMARY} />
+      </View>
+    )
+  }
 
   return (
     <ScrollView contentContainerStyle={{ paddingHorizontal: 10 }}>
-      <FavoriteCard
-        type={FavoriteType.FAVORITE}
-        title={i18n.t(LocalizationKey.YOUR_LIST)}
-      />
-      <FavoriteCard 
-        type={FavoriteType.YOUR_LIST}
-        title={i18n.t(LocalizationKey.MY_LIST)}
-        onPress={() => onNavigate(RootScreens.FAVORITE_DETAIL)}
-      />
+      {favorites?.map((favorite, index) => (
+        <FavoriteCard
+          key={index}
+          type={FavoriteType.YOUR_LIST}
+          title={favorite.listName}
+          onPress={() => onNavigate(RootScreens.FAVORITE_DETAIL, { favoriteId: favorite.id, favoriteName: favorite.listName })}
+        />
+      ))}
       <FavoriteCard 
         type={FavoriteType.ADD}
         title={i18n.t(LocalizationKey.ADD_NEW_LIST)}
@@ -52,7 +67,11 @@ const Favorite = ({ onNavigate }: IProps) => {
               controller={listNameController}
               label={i18n.t(LocalizationKey.YOUR_LIST_NAME)}
               autoFocus
+              postfix={favoriteMutation.isPending ? <ActivityIndicator size='large' color={Colors.PRIMARY} /> : undefined}
             />
+            <View style={{ alignItems: 'flex-start' }}>
+              {error && <Text style={{ color: Colors.ERROR }}>{error}</Text>}
+            </View>
             <View style={styles.modalButtonContainer}>
               <TextButton
                 title={i18n.t(LocalizationKey.CANCEL)}
@@ -60,7 +79,9 @@ const Favorite = ({ onNavigate }: IProps) => {
               />
               <FilledButton
                 title={i18n.t(LocalizationKey.CREATE)}
-                onPress={handleCloseModal}
+                onPress={() => {
+                  favoriteMutation.mutate({ listName: listNameController.value })
+                }}
               />
             </View>
           </View> 
