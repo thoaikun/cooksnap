@@ -74,4 +74,7 @@ export const vi = {
   [LocalizationKey.CANCEL]: 'Hủy',
   [LocalizationKey.YOUR_LIST_NAME]: 'Tên danh sách',
   [LocalizationKey.NO_FAVORITE_LIST]: 'Bạn chưa có danh sách yêu thích nào',
+  [LocalizationKey.NO_DISH_IN_LIST]: 'Bạn chưa có món ăn yêu thích nào',
+  [LocalizationKey.GRANT_PERMISSION]: 'Cấp quyền',
+  [LocalizationKey.GRANT_PERMISSION_QUOTE]: 'Cooksnap cần quyền truy cập vào máy ảnh và thư viện',
 };

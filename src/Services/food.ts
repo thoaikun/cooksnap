@@ -119,8 +119,8 @@ const addDishToFavorite = async (listId: number, dishId: string, aboutDish: stri
 const deleteDishFromFavorite = async (listId: number, dishId: string) => {
     const res = await base.delete(`/api/v1/dishes/dish/favorite-list`, {
         params: {
-            listId,
             dishId,
+            listId,
         }
     })
     return res.data

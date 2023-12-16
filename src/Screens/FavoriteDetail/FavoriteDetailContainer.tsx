@@ -25,7 +25,8 @@ const FavoriteDetailContainer = ({
   })
   const deleteFavoriteMutation = useMutation({
     mutationFn: async (payload: { listId: number, dishId: string }) => {
-        return foodApi.deleteDishFromFavorite(payload.listId, payload.dishId)
+      console.log(payload)
+      return foodApi.deleteDishFromFavorite(payload.listId, payload.dishId)
     },
     onSuccess: async (_) => {
         await queryClient.invalidateQueries({

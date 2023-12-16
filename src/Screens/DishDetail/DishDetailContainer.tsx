@@ -38,7 +38,6 @@ export const DishDetailContainer = ({ route, navigation }: SnapScreenNavigatorPr
   } = useFavorite(listInputController, () => setModalAddVisible(false))
 
   const isInYourFavorite = async (dishId: string) => {
-    dishId = dishId.replace('#', '')
     const result = await foodApi.isDishInFavorite(dishId)
 
     const favoriteListIds = result?.favoriteListIds
@@ -46,10 +45,6 @@ export const DishDetailContainer = ({ route, navigation }: SnapScreenNavigatorPr
       let ids = favoriteListIds.map((favoriteList: any) => favoriteList?.[1])
       setInFavoriteList(ids)
     }
-  }
-
-  const onNavigate = (screen: RootScreens, params?: any) => {
-    navigation.navigate(screen, params);
   }
   
   useEffect(() => {
@@ -112,6 +107,7 @@ export const DishDetailContainer = ({ route, navigation }: SnapScreenNavigatorPr
                   {favorite.listName}
                 </Text>
                 <TouchableOpacity
+                  style={{ paddingHorizontal: 10 }}
                   onPress={() => {
                     if (inFavoriteList.includes(favorite.id))
                       return

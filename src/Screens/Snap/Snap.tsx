@@ -12,6 +12,7 @@ import { useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, Button, Dimensions, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { RootScreens } from '..';
 import { FlatList } from 'native-base';
+import { LocalizationKey, i18n } from '@/Localization';
 
 interface IProps {
   onNavigate: (screen: RootScreens, params?: any) => void;
@@ -78,6 +79,7 @@ const Snap = ({ onNavigate }: IProps) => {
   useEffect(() => {
     if (!photo || !photoExtension) return
     const formData = new FormData()
+    // @ts-ignore
     formData.append(
       'image',
       {
@@ -103,9 +105,9 @@ const Snap = ({ onNavigate }: IProps) => {
   if (!permission.granted) {
     // Camera permissions are not granted yet
     return (
-      <View style={[styles.container, { flex: 1, justifyContent: 'center', alignItems: 'center'}]}>
-        <Text style={{ textAlign: 'center' }}>We need your permission to show the camera</Text>
-        <Button onPress={requestPermission} title="grant permission" />
+      <View style={[styles.container, { flex: 1, justifyContent: 'center', alignItems: 'center', rowGap: 20, paddingHorizontal: 20}]}>
+        <Text style={{ textAlign: 'center' }}>{i18n.t(LocalizationKey.GRANT_PERMISSION_QUOTE)}</Text>
+        <FilledButton onPress={requestPermission} title={i18n.t(LocalizationKey.GRANT_PERMISSION)} style={{ alignSelf: 'center' }}/>
       </View>
     );
   }

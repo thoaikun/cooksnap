@@ -1,4 +1,3 @@
-import { config } from "@fortawesome/fontawesome-svg-core";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 

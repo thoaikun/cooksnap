@@ -50,7 +50,6 @@ const useFavorite = (inputController: InputController, handleCloseModal: () => v
     })
     const addDishToFavoriteMutation = useMutation({
         mutationFn: async (payload: { listId: number, dishId: string, dishName: string }) => {
-            payload.dishId = payload.dishId.replace('#', '')
             return foodApi.addDishToFavorite(payload.listId, payload.dishId, payload.dishName)
         },
         onSuccess: async (_) => {

@@ -74,4 +74,7 @@ export const en = {
   [LocalizationKey.CANCEL]: 'Cancel',
   [LocalizationKey.YOUR_LIST_NAME]: 'List name',
   [LocalizationKey.NO_FAVORITE_LIST]: 'You don\'t have any favorite list',
+  [LocalizationKey.NO_DISH_IN_LIST]: 'You don\'t have any favorite dish',
+  [LocalizationKey.GRANT_PERMISSION]: 'Grant permission',
+  [LocalizationKey.GRANT_PERMISSION_QUOTE]: 'Cooksnap need permission to access your camera and photo library',
 };

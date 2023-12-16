@@ -22,5 +22,5 @@ export const extractIdFromUrl = (url: string) => {
     const match = pattern.exec(url);
   
     const recipeId = match?.[0] ?? '0';
-    return recipeId;
+    return recipeId.replace('#', '');
   }

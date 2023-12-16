@@ -1,15 +1,15 @@
+import Divider from "@/Components/Divider/Divider";
 import { Recipe } from "@/Model/foodRecommendation";
 import { Colors, FontSize } from "@/Theme/Variables";
+import { extractIdFromUrl } from "@/Utils";
+import { faXmark, faBoxOpen } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { UseMutationResult } from "@tanstack/react-query";
 import { FlatList } from "native-base";
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, StyleSheet, View, Text, Image, TouchableOpacity, Pressable } from "react-native";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import Divider from "@/Components/Divider/Divider";
+import { ActivityIndicator, Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { RootScreens } from "..";
-import useFavorite from "@/Hooks/useFavorite";
-import { UseMutationResult } from "@tanstack/react-query";
-import { extractIdFromUrl } from "@/Utils";
+import { LocalizationKey, i18n } from "@/Localization";
 
 
 interface IProps {
@@ -51,10 +51,13 @@ export const FavoriteDetail = ({ onNavigate, favoriteDishes, favoriteId, isLoadi
   }
 
   return (
-    <View>
+    <>
       {
         shownRecipes?.length === 0 ?
-          <Text style={{ fontSize: FontSize.REGULAR }}>No dish</Text>
+          <View style={styles.emptyContainer}>
+            <FontAwesomeIcon icon={faBoxOpen} size={50} color={Colors.BACKGROUND} />
+            <Text style={{ fontSize: FontSize.SMALL }}>{i18n.t(LocalizationKey.NO_DISH_IN_LIST)}</Text>
+          </View>
           :
           <FlatList 
             data={shownRecipes}
@@ -77,15 +80,20 @@ export const FavoriteDetail = ({ onNavigate, favoriteDishes, favoriteId, isLoadi
                     {item.label}
                   </Text>
                 </View>
-                <TouchableOpacity
-                  onPress={() => {
-                    let dishId = extractIdFromUrl(item.uri)
-                    dishId = dishId.replace('#', ' ')
-                    deleteFavoriteMutation.mutate({ listId: favoriteId, dishId })
-                  }}
-                >
-                  <FontAwesomeIcon icon={faXmark} size={16} />
-                </TouchableOpacity>
+                {
+                  deleteFavoriteMutation.variables?.dishId && deleteFavoriteMutation.variables.dishId === extractIdFromUrl(item.uri) && deleteFavoriteMutation.isPending ? 
+                    <ActivityIndicator size='small' color={Colors.PRIMARY} />
+                    :
+                    <TouchableOpacity
+                      onPress={() => {
+                        let dishId = extractIdFromUrl(item.uri)
+                        deleteFavoriteMutation.mutate({ listId: favoriteId, dishId })
+                      }}
+                      style={{ padding: 10 }}
+                    >
+                      <FontAwesomeIcon icon={faXmark} size={16} />
+                    </TouchableOpacity>
+                }
               </Pressable>
             )}
             ListFooterComponent={() => 
@@ -100,8 +108,7 @@ export const FavoriteDetail = ({ onNavigate, favoriteDishes, favoriteId, isLoadi
             showsVerticalScrollIndicator={false}
         />
       }
-     
-    </View>
+    </>
   );
 };
 
@@ -125,5 +132,11 @@ const styles = StyleSheet.create({
     fontSize: FontSize.SMALL,
     fontWeight: '500',
     maxWidth: 200
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    rowGap: 15
   }
 });
