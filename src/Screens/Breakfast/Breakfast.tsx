@@ -1,29 +1,9 @@
-import FilledButton from "@/Components/Button/FilledButton";
-import OutlinedButton from "@/Components/Button/OutlinedButton";
-import TextButton from "@/Components/Button/TextButton";
-import LightTextButton from "@/Components/Button/LightTextButton";
 import Card, { CardDirection } from "@/Components/Card/Card";
-import Input from "@/Components/Input/Input";
-import RatingStars from "@/Components/RatingStars/RatingStars";
-import useInputController from "@/Components/Input/useInputController";
-
-import { IProfile } from "@/Model/profile";
 import { Recipe } from '@/Model/foodRecommendation';
-
-import userApi from "@/Services/user";
 import foodApi from '@/Services/food';
-
-import profileStore from "@/Store/reducers/profile";
-import { profileSelector } from "@/Store/selector";
-import { Colors, FontSize } from "@/Theme/Variables"
-import { faEnvelope } from '@fortawesome/free-regular-svg-icons/faEnvelope';
-import { faStar } from "@fortawesome/free-solid-svg-icons/faStar";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { useQuery } from "@tanstack/react-query";
-import React, { useEffect, useRef, useState } from "react";
-import { ActivityIndicator, View, Text, Image, StyleSheet, Pressable, ScrollView } from "react-native"
-import { useDispatch, useSelector } from "react-redux";
-
+import { Colors, FontSize } from "@/Theme/Variables";
+import React, { useEffect, useState } from "react";
+import { ActivityIndicator, ScrollView, StyleSheet, View } from "react-native";
 import { RootScreens } from '..';
 
 interface IProps {
@@ -51,22 +31,24 @@ export const Breakfast = ({ onNavigate }: IProps) => {
   return (
     <ScrollView contentContainerStyle={{ paddingHorizontal: 10 }}> 
 
-      <View style={styles.containerColumn}>
-        {loading ? (
-          <ActivityIndicator size="large" color={Colors.PRIMARY} />
-        ) 
-        : (
-          breakfastRecipes.map((item) => (
-            <Card 
-              imageUrl={item.image}
-              title={item.label}
-              subtitle={item.healthLabels.slice(0, 5).join(', ')}
-              direction={CardDirection.ROW} 
-              onPress={() => onNavigate(RootScreens.DISH_DETAIL, { dish: item })}
-            />
-          ))
-        )}
-      </View>
+      {loading ?
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator size="large" color={Colors.PRIMARY} />
+          </View>
+        :
+        <View style={styles.containerColumn}>
+            {breakfastRecipes.map((item, index) => (
+              <Card 
+                key={index}
+                imageUrl={item.image}
+                title={item.label}
+                subtitle={item.healthLabels.slice(0, 5).join(', ')}
+                direction={CardDirection.ROW} 
+                onPress={() => onNavigate(RootScreens.DISH_DETAIL, { dish: item })}
+              />
+            ))}
+        </View>
+      }
   
     </ScrollView>
   );
@@ -161,4 +143,9 @@ const styles = StyleSheet.create({
       paddingHorizontal: 16,
       paddingBottom: 12
   },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
 })
