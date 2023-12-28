@@ -55,7 +55,8 @@ export const MainNavigator = ({ route, navigation}: MainNavigatorProps) => {
       screenOptions={{
         tabBarActiveTintColor: Colors.PRIMARY,
         tabBarInactiveTintColor: Colors.BACKGROUND,
-        tabBarShowLabel: false
+        tabBarShowLabel: false,
+        tabBarHideOnKeyboard: true,
       }}
     >
       <Tab.Screen

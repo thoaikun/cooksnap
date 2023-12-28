@@ -71,8 +71,9 @@ export const Search = ({ onNavigate }: IProps) => {
             <ActivityIndicator size="large" color={Colors.PRIMARY} />
           ) 
           : (
-            searchRecipes.map((item) => (
+            searchRecipes.map((item, index) => (
               <Card 
+                key={index}
                 imageUrl={item.image}
                 title={item.label}
                 subtitle={item.healthLabels.slice(0, 5).join(', ')}
