@@ -33,6 +33,7 @@ export enum LocalizationKey {
   BREAKFAST = 'BREAKFAST',
   LUNCH = 'LUNCH',
   DINNER = 'DINNER',
+  SNACK = 'SNACK',
 
   EMAIL = 'EMAIL',
   PASSWORD = 'PASSWORD',

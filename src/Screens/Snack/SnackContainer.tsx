@@ -1,20 +1,20 @@
-import { Search } from "./Search";
 import React from "react";
 import { RootStackParamList } from "@/Navigation";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { MainScreens, RootScreens } from "..";
+import { Snack } from "./Snack";
 import { useEffect } from "react";
 import { BackHandler } from "react-native";
 import { BottomTabsParamList } from "@/Navigation/Main";
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import { CompositeScreenProps } from "@react-navigation/native";
 
-type SearchScreenNavigatorProps = CompositeScreenProps<
-  BottomTabScreenProps<BottomTabsParamList, MainScreens.SEARCH>,
+type SnackScreenNavigatorProps = CompositeScreenProps<
+  BottomTabScreenProps<BottomTabsParamList, MainScreens.HOME>,
   NativeStackScreenProps<RootStackParamList>
 >;
 
-export const SearchContainer = ({ navigation }: SearchScreenNavigatorProps) => {
+export const SnackContainer = ({ navigation }: SnackScreenNavigatorProps) => {
   const onNavigate = (screen: RootScreens, params?: any) => {
     console.log('navigate')
     navigation.navigate(screen, params);
@@ -22,7 +22,7 @@ export const SearchContainer = ({ navigation }: SearchScreenNavigatorProps) => {
 
   const onBack = () => {
     console.log('back')
-    navigation.navigate(MainScreens.SEARCH)
+    navigation.navigate(MainScreens.HOME)
     return true
   }
 
@@ -34,6 +34,6 @@ export const SearchContainer = ({ navigation }: SearchScreenNavigatorProps) => {
 
     return () => backHandler.remove()
   }, [])
-
-  return <Search onNavigate={onNavigate}/>; 
+  
+  return <Snack onNavigate={onNavigate}/>;
 };

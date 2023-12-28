@@ -17,11 +17,11 @@ import profileStore from "@/Store/reducers/profile";
 import { profileSelector } from "@/Store/selector";
 import { Colors, FontSize } from "@/Theme/Variables"
 import { faEnvelope } from '@fortawesome/free-regular-svg-icons/faEnvelope';
-import { faStar, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { faStar } from "@fortawesome/free-solid-svg-icons/faStar";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useQuery } from "@tanstack/react-query";
 import React, { useEffect, useRef, useState } from "react";
-import { ActivityIndicator, View, Text, Image, StyleSheet, Pressable, ScrollView, Dimensions } from "react-native"
+import { ActivityIndicator, View, Text, Image, StyleSheet, Pressable, ScrollView } from "react-native"
 import { useDispatch, useSelector } from "react-redux";
 
 import { RootScreens } from '..';
@@ -30,19 +30,17 @@ interface IProps {
   onNavigate: (screen: RootScreens, params?: any) => void;
 }
 
-export const Search = ({ onNavigate }: IProps) => {
-  const [loading, setLoading] = useState(false);
-  const searchController = useInputController()
-  const [searchRecipes, setSearchRecipes] = useState<Recipe[]>([]);
+export const Breakfast = ({ onNavigate }: IProps) => {
+  const [loading, setLoading] = useState(true);
+  const [breakfastRecipes, setBreakFastRecipes] = useState<Recipe[]>([]);
 
   useEffect(() => {
-    setLoading(true)
     fetchData();
-  }, [searchController.value]);
+  }, []);
 
   const fetchData = async () => {
     try {
-      setSearchRecipes(await foodApi.getRecipes(searchController.value))
+      setBreakFastRecipes(await foodApi.getRecipes('', 'Breakfast'))
       setLoading(false)
     } 
     catch (error) {
@@ -51,57 +49,34 @@ export const Search = ({ onNavigate }: IProps) => {
   };
 
   return (
-    <ScrollView> 
-      <View style={styles.container}>
-        <Input 
-          label="Search"
-          controller={searchController}
-          
-          prefix={
-            <FontAwesomeIcon 
-              icon={faMagnifyingGlass} 
-              size={22} 
-              color={searchController.isFocused ? Colors.PRIMARY : Colors.BACKGROUND} 
+    <ScrollView contentContainerStyle={{ paddingHorizontal: 10 }}> 
+
+      <View style={styles.containerColumn}>
+        {loading ? (
+          <ActivityIndicator size="large" color={Colors.PRIMARY} />
+        ) 
+        : (
+          breakfastRecipes.map((item) => (
+            <Card 
+              imageUrl={item.image}
+              title={item.label}
+              subtitle={item.healthLabels.slice(0, 5).join(', ')}
+              direction={CardDirection.ROW} 
+              onPress={() => onNavigate(RootScreens.DISH_DETAIL, { dish: item })}
             />
-          }
-        />
-
-        <View style={styles.containerColumn}>
-          {loading ? (
-            <ActivityIndicator size="large" color={Colors.PRIMARY} />
-          ) 
-          : (
-            searchRecipes.map((item) => (
-              <Card 
-                imageUrl={item.image}
-                title={item.label}
-                subtitle={item.healthLabels.slice(0, 5).join(', ')}
-                direction={CardDirection.ROW} 
-                onPress={() => onNavigate(RootScreens.DISH_DETAIL, { dish: item })}
-              />
-            ))
-          )}
-        </View>
-
+          ))
+        )}
       </View>
+  
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    marginVertical: 10,
-    paddingHorizontal: 20,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-    rowGap: 15,
-  },
   containerRow: { 
       width: '100%',
       elevation: 0, 
-
+  
       backgroundColor: Colors.WHITE,
       
       shadowColor: 'rgba(0, 0, 0, 0.10)',
@@ -144,6 +119,8 @@ const styles = StyleSheet.create({
       shadowOpacity: 1,
       shadowRadius: 1.8,
       elevation: 20,
+      paddingHorizontal: 5,
+      marginVertical: 20,
 
       display: 'flex',
       flexDirection: 'column',
@@ -151,27 +128,37 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       gap: 12
   },
+  imageColumn: {
+      width: '100%',
+      height: 200,
+      borderTopLeftRadius: 8,
+      borderTopRightRadius: 8
+  },
+  imageRow: {
+      width: 120,
+      height: 120
+  },
+  content: {
+      paddingHorizontal: 16,
+      backgroundColor: Colors.WHITE,
+      
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 5,
+  },
   title: {
-    fontSize: FontSize.LARGE,
-    fontWeight: 'bold',
-    marginBottom: 10,
+      fontWeight: '500',
+      fontSize: FontSize.SMALL,
+      color: Colors.PRIMARY_TEXT,
+      // flex: 1
   },
-  inputContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    rowGap: 15,
+  subtitle: {
+      fontWeight: '400',
+      fontSize: 12,
+      color: Colors.SECONDARY_TEXT
   },
-  buttonContainer: {
-      flexDirection: 'row',
-      justifyContent: 'flex-end',
-      columnGap: 10,
+  tail: {
+      paddingHorizontal: 16,
+      paddingBottom: 12
   },
-  loadingBackground: {
-    height: Dimensions.get('window').height, 
-    justifyContent: 'center', 
-    alignItems: 'center',
-    backgroundColor: Colors.WHITE,
-  }
 })

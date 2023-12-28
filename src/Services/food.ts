@@ -3,6 +3,42 @@ import axios from "axios"
 import base from "./base";
 import { IFavorite, IFavoriteDish } from "@/Model/favorite";
 
+const getRecipes = async (query: string='', mealType: null | string=null, cuisineType: null | string=null, dishType: null | string=null) => {
+    let params = {
+        type: 'public',
+        beta: true,
+        q: query,
+        app_id: 'e3500b3e',
+        app_key: '6b8d863a0a91781fc086d7491bfbf73e'
+    }
+
+    if (cuisineType !== null) params['cuisineType'] = cuisineType;
+    
+    if (mealType !== null) params['mealType'] = mealType;
+
+    if (dishType !== null) params['dishType'] = dishType;
+
+    console.log(params);
+
+    return axios.get('https://api.edamam.com/api/recipes/v2', {
+            params: params
+        })
+        .then((res) => {
+            const result: DishResult = res.data
+            const dishes: Recipe[] = []
+
+            for (let hit of result.hits) {
+                dishes.push(hit.recipe)
+            }
+
+            return dishes
+        })
+        .catch(function (error) {
+            throw error
+        });
+
+}
+
 const getRecommendationFromImage = async (payload: FormData) => {
     let config = {
         method: 'post',
@@ -136,6 +172,7 @@ const isDishInFavorite = async (dishId: string) => {
 }
 
 const foodApi = {
+    getRecipes,
     getRecommendationFromImage,
     getFavoriteList,
     createFavoriteList,

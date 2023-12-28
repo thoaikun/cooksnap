@@ -115,6 +115,7 @@ const Snap = ({ onNavigate }: IProps) => {
   if (photo) {
     return (
       <View>
+        
         <View style={styles.resultImageContainer}>
           <Image source={{ uri: photo.uri }} style={styles.resultImage} resizeMode='cover'/>
           <FilledButton 
@@ -127,6 +128,7 @@ const Snap = ({ onNavigate }: IProps) => {
             }}
           />
         </View>
+
         <View>
           {foodRecommendationMutation.isPending ? 
             <View style={{ height: 400, justifyContent: 'center', alignItems: 'center' }}>
@@ -161,6 +163,7 @@ const Snap = ({ onNavigate }: IProps) => {
             />
           }
         </View>
+
       </View>
     )
   }

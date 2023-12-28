@@ -30,6 +30,7 @@ export const en = {
   [LocalizationKey.BREAKFAST]: 'Breakfast',
   [LocalizationKey.CREATE_NEW_LIST]: 'Create new list',
   [LocalizationKey.DINNER]: 'Dinner',
+  [LocalizationKey.SNACK]: 'Snack',
   [LocalizationKey.FAVORITE]: 'Favorite',
   [LocalizationKey.FORGOT_PASSWORD]: 'Forgot password',
   [LocalizationKey.LIST]: 'List',

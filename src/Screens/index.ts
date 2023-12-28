@@ -7,6 +7,9 @@ export enum RootScreens {
   SNAP = "Snap",
   FAVORITE_DETAIL = "FavoriteDetail", 
   DISH_DETAIL = "DishDetail",
+  BREAKFAST = "Breakfast",
+  LUNCH = "Lunch",
+  SNACK = "Snack",
 }
 
 export enum MainScreens {

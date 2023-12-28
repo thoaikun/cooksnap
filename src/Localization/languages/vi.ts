@@ -35,6 +35,7 @@ export const vi = {
   [LocalizationKey.LIST]: 'Danh sách',
   [LocalizationKey.LOGIN]: 'Đăng nhập',
   [LocalizationKey.LUNCH]: 'Bữa trưa',
+  [LocalizationKey.SNACK]: 'Ăn vặt',
   [LocalizationKey.PROFILE]: 'Thông tin cá nhân',
   [LocalizationKey.RECIPE]: 'Công thức',
   [LocalizationKey.REVIEW]: 'Đánh giá',
@@ -66,7 +67,7 @@ export const vi = {
   [LocalizationKey.CALORY]: 'Calo',
   [LocalizationKey.FAT]: 'Chất béo',
   [LocalizationKey.PROTEIN]: 'Chất đạm',
-  [LocalizationKey.CARB]: 'Chất bột',
+  [LocalizationKey.CARB]: 'Tinh bột',
 
   [LocalizationKey.MY_LIST]: 'Danh sách của tôi',
   [LocalizationKey.ADD_NEW_LIST]: 'Thêm danh sách mới',
