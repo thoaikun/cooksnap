@@ -7,6 +7,9 @@ import { LoginContainer } from "@/Screens/Login/LoginContainer";
 import { SignUpContainer } from "@/Screens/SignUp/SignUpContainer";
 import { SnapContainer } from "@/Screens/Snap/SnapContainer";
 import { WelcomeContainer } from "@/Screens/Welcome/WelcomeContainer";
+import { BreakfastContainer } from "@/Screens/Breakfast/BreakfastContainer";
+import { LunchContainer } from "@/Screens/Lunch/LunchContainer";
+import { SnackContainer } from "@/Screens/Snack/SnackContainer";
 import { Colors } from "@/Theme/Variables";
 import { DefaultTheme, NavigationContainer, Theme } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -30,6 +33,9 @@ export type RootStackParamList = {
   [RootScreens.DISH_DETAIL]: {
     dish: Recipe
   }
+  [RootScreens.BREAKFAST]: undefined
+  [RootScreens.LUNCH]: undefined
+  [RootScreens.SNACK]: undefined
 };
 
 const MyTheme: Theme = {
@@ -86,6 +92,27 @@ const ApplicationNavigator = () => {
         <RootStack.Screen
           name={RootScreens.DISH_DETAIL}
           component={DishDetailContainer}
+          options={{
+            headerShown: true,
+          }}
+        />
+        <RootStack.Screen
+          name={RootScreens.BREAKFAST}
+          component={BreakfastContainer}
+          options={{
+            headerShown: true,
+          }}
+        />
+        <RootStack.Screen
+          name={RootScreens.LUNCH}
+          component={LunchContainer}
+          options={{
+            headerShown: true,
+          }}
+        />
+        <RootStack.Screen
+          name={RootScreens.SNACK}
+          component={SnackContainer}
           options={{
             headerShown: true,
           }}

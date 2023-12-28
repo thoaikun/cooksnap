@@ -46,9 +46,6 @@
       "policy": "sdkVersion"
     },
     "extra": {
-      "eas": {
-        "projectId": "cd821998-f331-42e3-b58c-ea7b6a552b70"
-      }
     },
     "owner": "thoaile"
   }
