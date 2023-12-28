@@ -1,3 +1,5 @@
+import axios from "axios"
+
 import Card, { CardDirection } from "@/Components/Card/Card";
 import { Recipe } from '@/Model/foodRecommendation';
 import foodApi from '@/Services/food';
@@ -15,6 +17,8 @@ interface IProps {
 export const Snack = ({ onNavigate }: IProps) => {
   const [loading, setLoading] = useState(true);
   const [snackRecipes, setSnackRecipes] = useState<Recipe[]>([]);
+  const [loadingNextPage, setLoadingNextPage] = useState(false);
+  const [nextPage, setNextPage] = useState<string | null>(null);
 
   useEffect(() => {
     fetchData();
@@ -22,11 +26,43 @@ export const Snack = ({ onNavigate }: IProps) => {
 
   const fetchData = async () => {
     try {
-      setSnackRecipes((await foodApi.getRecipes('', 'Snack')).recipes)
+      setLoading(true)
+      let {nextPage, recipes} = await foodApi.getRecipes("", "Snack")
       setLoading(false)
+      setNextPage(nextPage)
+      setSnackRecipes(recipes)
     } 
     catch (error) {
       console.error('Error fetching data:', error);
+    }
+  };
+
+  const fetchNextData = async () => {
+    if (nextPage === null) return;
+
+    try {
+      setLoadingNextPage(true)
+      let nextRecipes = await axios.get(nextPage)
+        .then((res) => {
+            const result: DishResult = res.data
+
+            setNextPage(result._links.next.href)
+
+            const dishes: Recipe[] = []
+            for (let hit of result.hits) {
+                dishes.push(hit.recipe)
+            }
+
+            return dishes
+        })
+        .catch(function (error) {
+            throw error
+        });
+      setLoadingNextPage(false)
+      setSnackRecipes(snackRecipes.concat(nextRecipes))
+    } 
+    catch (error) {
+      console.error('Error fetching next page data:', error);
     }
   };
 
@@ -48,6 +84,13 @@ export const Snack = ({ onNavigate }: IProps) => {
               direction={CardDirection.ROW} 
               onPress={() => onNavigate(RootScreens.DISH_DETAIL, { dish: item })}
             />
+          )}
+          onEndReached={fetchNextData}
+          onEndReachedThreshold={0.1}
+          ListFooterComponent={() => (
+            <View style={{ height: 100, justifyContent: 'center', alignItems: 'center' }}>
+              {loadingNextPage ? <ActivityIndicator size='large' color={Colors.PRIMARY} /> : null}
+            </View>
           )}
           keyExtractor={(item, index) => index.toString()}
           ItemSeparatorComponent={() => <Divider />}
@@ -97,7 +140,8 @@ const styles = StyleSheet.create({
       gap: 12
   },
   containerColumn: {
-      marginHorizontal: 15
+    paddingTop: 15,
+    marginHorizontal: 15
   },
   imageColumn: {
       width: '100%',

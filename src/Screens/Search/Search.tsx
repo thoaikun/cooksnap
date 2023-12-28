@@ -37,6 +37,7 @@ export const Search = ({ onNavigate }: IProps) => {
   const [loading, setLoading] = useState(false);
   const searchController = useInputController()
   const [searchRecipes, setSearchRecipes] = useState<Recipe[]>([]);
+  const [loadingNextPage, setLoadingNextPage] = useState(false);
   const [nextPage, setNextPage] = useState<string | null>(null);
 
   useEffect(() => {
@@ -45,6 +46,8 @@ export const Search = ({ onNavigate }: IProps) => {
   }, [searchController.value]);
 
   const fetchData = async () => {
+    if (searchController.value == "") return;
+
     try {
       setLoading(true)
       let {nextPage, recipes} = await foodApi.getRecipes(searchController.value)
@@ -58,8 +61,10 @@ export const Search = ({ onNavigate }: IProps) => {
   };
 
   const fetchNextData = async () => {
+    if (nextPage === null) return;
+
     try {
-      setLoading(true)
+      setLoadingNextPage(true)
       let nextRecipes = await axios.get(nextPage)
         .then((res) => {
             const result: DishResult = res.data
@@ -76,7 +81,7 @@ export const Search = ({ onNavigate }: IProps) => {
         .catch(function (error) {
             throw error
         });
-      setLoading(false)
+      setLoadingNextPage(false)
       setSearchRecipes(searchRecipes.concat(nextRecipes))
     } 
     catch (error) {
@@ -85,7 +90,6 @@ export const Search = ({ onNavigate }: IProps) => {
   };
 
   return (
-    // <ScrollView> 
     <View style={styles.container}>
       <Input 
         label="Search"
@@ -99,21 +103,12 @@ export const Search = ({ onNavigate }: IProps) => {
         }
       />
 
-      {/* <View style={styles.containerColumn}>
-        {
-          searchRecipes.map((item) => (
-            <Card 
-              imageUrl={item.image}
-              title={item.label}
-              subtitle={item.healthLabels.slice(0, 5).join(', ')}
-              direction={CardDirection.ROW} 
-              onPress={() => onNavigate(RootScreens.DISH_DETAIL, { dish: item })}
-            />
-          ))
-        }
-        {loading ? (<ActivityIndicator size="large" color={Colors.PRIMARY} />) 
-        : null}
-      </View> */}
+      {loading ? 
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color={Colors.PRIMARY} />
+        </View>
+        : null
+      }
 
       <FlatList
         style={styles.listDishContainer}
@@ -132,14 +127,13 @@ export const Search = ({ onNavigate }: IProps) => {
         onEndReachedThreshold={0.1}
         ListFooterComponent={() => (
           <View style={{ height: 100, justifyContent: 'center', alignItems: 'center' }}>
-            <ActivityIndicator size='large' color={Colors.PRIMARY} />
+            {loadingNextPage ? <ActivityIndicator size='large' color={Colors.PRIMARY} /> : null}
           </View>
         )}
         ItemSeparatorComponent={() => <Divider />}
         showsVerticalScrollIndicator={false}
       />
     </View>
-    // </ScrollView>
   );
 };
 
@@ -151,7 +145,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'flex-start',
     justifyContent: 'center',
-    rowGap: 15,
+    gap: 15,
   },
   containerRow: { 
       width: '100%',
@@ -208,8 +202,7 @@ const styles = StyleSheet.create({
   },
   listDishContainer: {
     marginTop: 15,
-    // marginHorizontal: 15,
-    width: Dimensions.get('window').width
+    width: "100%"
   },
   title: {
     fontSize: FontSize.LARGE,
@@ -233,5 +226,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center', 
     alignItems: 'center',
     backgroundColor: Colors.WHITE,
+  },
+  loadingContainer: {
+    flex: 1,
+    marginVertical: 15,
+    width: "100%",
+    alignItems: 'center',
+    justifyContent: 'center',
   }
 })

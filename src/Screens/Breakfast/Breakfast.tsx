@@ -1,10 +1,15 @@
+import axios from "axios"
+
 import Card, { CardDirection } from "@/Components/Card/Card";
 import { Recipe } from '@/Model/foodRecommendation';
 import foodApi from '@/Services/food';
 import { Colors, FontSize } from "@/Theme/Variables";
+
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, ScrollView, StyleSheet, View } from "react-native";
+import { ActivityIndicator, ScrollView, StyleSheet, View, FlatList } from "react-native";
+
 import { RootScreens } from '..';
+import Divider from "@/Components/Divider/Divider";
 
 interface IProps {
   onNavigate: (screen: RootScreens, params?: any) => void;
@@ -13,6 +18,8 @@ interface IProps {
 export const Breakfast = ({ onNavigate }: IProps) => {
   const [loading, setLoading] = useState(true);
   const [breakfastRecipes, setBreakFastRecipes] = useState<Recipe[]>([]);
+  const [loadingNextPage, setLoadingNextPage] = useState(false);
+  const [nextPage, setNextPage] = useState<string | null>(null);
 
   useEffect(() => {
     fetchData();
@@ -20,37 +27,78 @@ export const Breakfast = ({ onNavigate }: IProps) => {
 
   const fetchData = async () => {
     try {
-      setBreakFastRecipes((await foodApi.getRecipes('', 'Breakfast')).recipes)
+      setLoading(true)
+      let {nextPage, recipes} = await foodApi.getRecipes("", "Lunch")
       setLoading(false)
+      setNextPage(nextPage)
+      setBreakFastRecipes(recipes)
     } 
     catch (error) {
       console.error('Error fetching data:', error);
     }
   };
 
-  return (
-    <ScrollView contentContainerStyle={{ paddingHorizontal: 10 }}> 
+  const fetchNextData = async () => {
+    if (nextPage === null) return;
 
-      {loading ?
-          <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color={Colors.PRIMARY} />
-          </View>
-        :
-        <View style={styles.containerColumn}>
-            {breakfastRecipes.map((item, index) => (
-              <Card 
-                key={index}
-                imageUrl={item.image}
-                title={item.label}
-                subtitle={item.healthLabels.slice(0, 5).join(', ')}
-                direction={CardDirection.ROW} 
-                onPress={() => onNavigate(RootScreens.DISH_DETAIL, { dish: item })}
-              />
-            ))}
+    try {
+      setLoadingNextPage(true)
+      let nextRecipes = await axios.get(nextPage)
+        .then((res) => {
+            const result: DishResult = res.data
+
+            setNextPage(result._links.next.href)
+
+            const dishes: Recipe[] = []
+            for (let hit of result.hits) {
+                dishes.push(hit.recipe)
+            }
+
+            return dishes
+        })
+        .catch(function (error) {
+            throw error
+        });
+      setLoadingNextPage(false)
+      setBreakFastRecipes(breakfastRecipes.concat(nextRecipes))
+    } 
+    catch (error) {
+      console.error('Error fetching next page data:', error);
+    }
+  };
+
+  return (
+    <>
+      {loading ? 
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color={Colors.PRIMARY} />
         </View>
+        :
+        <FlatList
+          style={styles.containerColumn}
+          data={breakfastRecipes}
+          renderItem={({ item }) => (
+            <Card 
+              imageUrl={item.image}
+              title={item.label}
+              subtitle={item.healthLabels.slice(0, 5).join(', ')}
+              direction={CardDirection.ROW} 
+              onPress={() => onNavigate(RootScreens.DISH_DETAIL, { dish: item })}
+            />
+          )}
+          onEndReached={fetchNextData}
+          onEndReachedThreshold={0.1}
+          ListFooterComponent={() => (
+            <View style={{ height: 100, justifyContent: 'center', alignItems: 'center' }}>
+              {loadingNextPage ? <ActivityIndicator size='large' color={Colors.PRIMARY} /> : null}
+            </View>
+          )}
+          keyExtractor={(item, index) => index.toString()}
+          ItemSeparatorComponent={() => <Divider />}
+          showsVerticalScrollIndicator={false}
+        />
       }
-  
-    </ScrollView>
+    </>
   );
 };
 
@@ -93,22 +141,8 @@ const styles = StyleSheet.create({
       gap: 12
   },
   containerColumn: {
-      borderRadius: 8,
-      backgroundColor: Colors.WHITE,
-
-      shadowColor: 'rgba(0, 0, 0, 0.10)',
-      shadowOffset: { width: 0.9, height: 0.9 },
-      shadowOpacity: 1,
-      shadowRadius: 1.8,
-      elevation: 20,
-      paddingHorizontal: 5,
-      marginVertical: 20,
-
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'flex-start',
-      justifyContent: 'center',
-      gap: 12
+    paddingTop: 15,
+    marginHorizontal: 15
   },
   imageColumn: {
       width: '100%',
