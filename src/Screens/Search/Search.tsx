@@ -1,3 +1,5 @@
+import axios from "axios"
+
 import FilledButton from "@/Components/Button/FilledButton";
 import OutlinedButton from "@/Components/Button/OutlinedButton";
 import TextButton from "@/Components/Button/TextButton";
@@ -6,9 +8,10 @@ import Card, { CardDirection } from "@/Components/Card/Card";
 import Input from "@/Components/Input/Input";
 import RatingStars from "@/Components/RatingStars/RatingStars";
 import useInputController from "@/Components/Input/useInputController";
+import Divider from '@/Components/Divider/Divider';
 
 import { IProfile } from "@/Model/profile";
-import { Recipe } from '@/Model/foodRecommendation';
+import {DishResult, FoodRecommendation, Recipe} from "@/Model/foodRecommendation"
 
 import userApi from "@/Services/user";
 import foodApi from '@/Services/food';
@@ -21,7 +24,7 @@ import { faStar, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useQuery } from "@tanstack/react-query";
 import React, { useEffect, useRef, useState } from "react";
-import { ActivityIndicator, View, Text, Image, StyleSheet, Pressable, ScrollView, Dimensions } from "react-native"
+import { ActivityIndicator, View, Text, Image, StyleSheet, Pressable, ScrollView, Dimensions, FlatList } from "react-native"
 import { useDispatch, useSelector } from "react-redux";
 
 import { RootScreens } from '..';
@@ -34,57 +37,109 @@ export const Search = ({ onNavigate }: IProps) => {
   const [loading, setLoading] = useState(false);
   const searchController = useInputController()
   const [searchRecipes, setSearchRecipes] = useState<Recipe[]>([]);
+  const [nextPage, setNextPage] = useState<string | null>(null);
 
   useEffect(() => {
-    setLoading(true)
+    setNextPage(null)
     fetchData();
   }, [searchController.value]);
 
   const fetchData = async () => {
     try {
-      setSearchRecipes(await foodApi.getRecipes(searchController.value))
+      setLoading(true)
+      let {nextPage, recipes} = await foodApi.getRecipes(searchController.value)
       setLoading(false)
+      setNextPage(nextPage)
+      setSearchRecipes(recipes)
     } 
     catch (error) {
       console.error('Error fetching data:', error);
     }
   };
 
+  const fetchNextData = async () => {
+    try {
+      setLoading(true)
+      let nextRecipes = await axios.get(nextPage)
+        .then((res) => {
+            const result: DishResult = res.data
+
+            setNextPage(result._links.next.href)
+
+            const dishes: Recipe[] = []
+            for (let hit of result.hits) {
+                dishes.push(hit.recipe)
+            }
+
+            return dishes
+        })
+        .catch(function (error) {
+            throw error
+        });
+      setLoading(false)
+      setSearchRecipes(searchRecipes.concat(nextRecipes))
+    } 
+    catch (error) {
+      console.error('Error fetching next page data:', error);
+    }
+  };
+
   return (
-    <ScrollView> 
-      <View style={styles.container}>
-        <Input 
-          label="Search"
-          controller={searchController}
-          
-          prefix={
-            <FontAwesomeIcon 
-              icon={faMagnifyingGlass} 
-              size={22} 
-              color={searchController.isFocused ? Colors.PRIMARY : Colors.BACKGROUND} 
+    // <ScrollView> 
+    <View style={styles.container}>
+      <Input 
+        label="Search"
+        controller={searchController}
+        prefix={
+          <FontAwesomeIcon 
+            icon={faMagnifyingGlass} 
+            size={22} 
+            color={searchController.isFocused ? Colors.PRIMARY : Colors.BACKGROUND} 
+          />
+        }
+      />
+
+      {/* <View style={styles.containerColumn}>
+        {
+          searchRecipes.map((item) => (
+            <Card 
+              imageUrl={item.image}
+              title={item.label}
+              subtitle={item.healthLabels.slice(0, 5).join(', ')}
+              direction={CardDirection.ROW} 
+              onPress={() => onNavigate(RootScreens.DISH_DETAIL, { dish: item })}
             />
-          }
-        />
+          ))
+        }
+        {loading ? (<ActivityIndicator size="large" color={Colors.PRIMARY} />) 
+        : null}
+      </View> */}
 
-        <View style={styles.containerColumn}>
-          {loading ? (
-            <ActivityIndicator size="large" color={Colors.PRIMARY} />
-          ) 
-          : (
-            searchRecipes.map((item) => (
-              <Card 
-                imageUrl={item.image}
-                title={item.label}
-                subtitle={item.healthLabels.slice(0, 5).join(', ')}
-                direction={CardDirection.ROW} 
-                onPress={() => onNavigate(RootScreens.DISH_DETAIL, { dish: item })}
-              />
-            ))
-          )}
-        </View>
-
-      </View>
-    </ScrollView>
+      <FlatList
+        style={styles.listDishContainer}
+        data={searchRecipes}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => (
+          <Card 
+            imageUrl={item.image}
+            title={item.label}
+            subtitle={item.healthLabels.slice(0, 5).join(', ')}
+            direction={CardDirection.ROW} 
+            onPress={() => onNavigate(RootScreens.DISH_DETAIL, { dish: item })}
+          />
+        )}
+        onEndReached={fetchNextData}
+        onEndReachedThreshold={0.1}
+        ListFooterComponent={() => (
+          <View style={{ height: 100, justifyContent: 'center', alignItems: 'center' }}>
+            <ActivityIndicator size='large' color={Colors.PRIMARY} />
+          </View>
+        )}
+        ItemSeparatorComponent={() => <Divider />}
+        showsVerticalScrollIndicator={false}
+      />
+    </View>
+    // </ScrollView>
   );
 };
 
@@ -150,6 +205,11 @@ const styles = StyleSheet.create({
       alignItems: 'flex-start',
       justifyContent: 'center',
       gap: 12
+  },
+  listDishContainer: {
+    marginTop: 15,
+    // marginHorizontal: 15,
+    width: Dimensions.get('window').width
   },
   title: {
     fontSize: FontSize.LARGE,

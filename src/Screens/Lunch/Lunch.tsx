@@ -40,7 +40,7 @@ export const Lunch = ({ onNavigate }: IProps) => {
 
   const fetchData = async () => {
     try {
-      setLunchRecipes(await foodApi.getRecipes('', 'Lunch'))
+      setLunchRecipes((await foodApi.getRecipes('', 'Lunch')).recipes)
       setLoading(false)
     } 
     catch (error) {

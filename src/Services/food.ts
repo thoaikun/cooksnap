@@ -3,7 +3,8 @@ import axios from "axios"
 import base from "./base";
 import { IFavorite, IFavoriteDish } from "@/Model/favorite";
 
-const getRecipes = async (query: string='', mealType: null | string=null, cuisineType: null | string=null, dishType: null | string=null) => {
+const getRecipes = async (query: string='', mealType: null | string=null, cuisineType: null | string=null, 
+                          dishType: null | string=null) => {
     let params = {
         type: 'public',
         beta: true,
@@ -31,12 +32,14 @@ const getRecipes = async (query: string='', mealType: null | string=null, cuisin
                 dishes.push(hit.recipe)
             }
 
-            return dishes
+            return {
+                nextPage: result.count > 20 ? result._links.next.href : null,
+                recipes: dishes
+            }
         })
         .catch(function (error) {
             throw error
         });
-
 }
 
 const getRecommendationFromImage = async (payload: FormData) => {
