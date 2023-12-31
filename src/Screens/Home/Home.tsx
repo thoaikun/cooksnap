@@ -11,6 +11,8 @@ import React, { useEffect, useState } from "react";
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from "react-native";
 import { RootScreens } from '..';
 
+import { LocalizationKey, i18n } from '@/Localization';
+
 interface IProps {
   onNavigate: (screen: RootScreens, params?: any) => void;
 }
@@ -53,16 +55,28 @@ export const Home = ({ onNavigate }: IProps) => {
       <View>
 
         <FilterBar 
-          options={["All", "Asian", "South East Asian", "Chinese", "Japanese", "Indian", 
-                    "Eastern Europe", "Central Europe", "British", "French", "Italian", 
-                    "American", "South American", "Mexican",]}
+          options_to_values={{
+                    [i18n.t(LocalizationKey.ALL)]: "All", 
+                    [i18n.t(LocalizationKey.ASIAN)]: "Asian", 
+                    [i18n.t(LocalizationKey.SOUTH_EAST_ASIAN)]: "South East Asian", 
+                    [i18n.t(LocalizationKey.CHINESE)]: "Chinese", 
+                    [i18n.t(LocalizationKey.JAPANESE)]: "Japanese", 
+                    [i18n.t(LocalizationKey.INDIAN)]: "Indian", 
+                    [i18n.t(LocalizationKey.EASTERN_EUROPE)]: "Eastern Europe", 
+                    [i18n.t(LocalizationKey.CENTRAL_EUROPE)]: "Central Europe", 
+                    [i18n.t(LocalizationKey.BRITISH)]: "British", 
+                    [i18n.t(LocalizationKey.FRENCH)]: "French", 
+                    [i18n.t(LocalizationKey.ITALIAN)]: "Italian", 
+                    [i18n.t(LocalizationKey.AMERICAN)]: "American", 
+                    [i18n.t(LocalizationKey.SOUTH_AMERICAN)]: "South American", 
+                    [i18n.t(LocalizationKey.MEXICAN)]: "Mexican",}}
           onOptionPress={setFilterOption}
         >
         </FilterBar>
 
         {/* Breakfast */}
         <View style={styles.titleRow}>
-          <Text style={styles.title}>Bữa sáng</Text>
+          <Text style={styles.title}>{i18n.t(LocalizationKey.BREAKFAST)}</Text>
 
           <LightTextButton 
             title="See all" 
@@ -96,7 +110,7 @@ export const Home = ({ onNavigate }: IProps) => {
 
         {/* Lunch */}
         <View style={styles.titleRow}>
-          <Text style={styles.title}>Bữa trưa</Text>
+          <Text style={styles.title}>{i18n.t(LocalizationKey.LUNCH)}</Text>
 
           <LightTextButton 
             title="See all" 
@@ -130,7 +144,7 @@ export const Home = ({ onNavigate }: IProps) => {
 
         {/* Snack */}
         <View style={styles.titleRow}>
-          <Text style={styles.title}>Ăn vặt</Text>
+          <Text style={styles.title}>{i18n.t(LocalizationKey.SNACK)}</Text>
 
           <LightTextButton 
             title="See all"

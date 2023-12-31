@@ -78,4 +78,19 @@ export const vi = {
   [LocalizationKey.NO_DISH_IN_LIST]: 'Bạn chưa có món ăn yêu thích nào',
   [LocalizationKey.GRANT_PERMISSION]: 'Cấp quyền',
   [LocalizationKey.GRANT_PERMISSION_QUOTE]: 'Cooksnap cần quyền truy cập vào máy ảnh và thư viện',
+
+  [LocalizationKey.ALL]: 'Tất cả',
+  [LocalizationKey.ASIAN]: 'Châu Á',
+  [LocalizationKey.SOUTH_EAST_ASIAN]: 'Đông Nam Á',
+  [LocalizationKey.CHINESE]: 'Trung Quốc',
+  [LocalizationKey.JAPANESE]: 'Nhật Bản',
+  [LocalizationKey.INDIAN]: 'Ấn Độ',
+  [LocalizationKey.EASTERN_EUROPE]: 'Tây Âu',
+  [LocalizationKey.CENTRAL_EUROPE]: 'Trung Âu', 
+  [LocalizationKey.BRITISH]: 'Anh',
+  [LocalizationKey.FRENCH]: 'Pháp',
+  [LocalizationKey.ITALIAN]: 'Ý',
+  [LocalizationKey.AMERICAN]: 'Châu Mỹ',
+  [LocalizationKey.SOUTH_AMERICAN]: 'Nam Mỹ',
+  [LocalizationKey.MEXICAN]: 'Mexican'
 };

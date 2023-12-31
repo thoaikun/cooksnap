@@ -17,6 +17,8 @@ import React from "react";
 import { StatusBar } from "react-native";
 import { MainNavigator } from "./Main";
 
+import { LocalizationKey, i18n } from '@/Localization';
+
 export type RootStackParamList = {
   [RootScreens.MAIN]: {
     previousScreen?: string

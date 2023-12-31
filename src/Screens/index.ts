@@ -1,3 +1,5 @@
+import { LocalizationKey, i18n } from '@/Localization';
+
 export enum RootScreens {
   MAIN = "Main",
   WELCOME = "Welcome",
@@ -7,9 +9,9 @@ export enum RootScreens {
   SNAP = "Snap",
   FAVORITE_DETAIL = "FavoriteDetail", 
   DISH_DETAIL = "DishDetail",
-  BREAKFAST = "Breakfast",
-  LUNCH = "Lunch",
-  SNACK = "Snack",
+  BREAKFAST = i18n.t(LocalizationKey.BREAKFAST),
+  LUNCH = i18n.t(LocalizationKey.LUNCH),
+  SNACK = i18n.t(LocalizationKey.SNACK),
 }
 
 export enum MainScreens {

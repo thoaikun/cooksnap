@@ -114,7 +114,7 @@ export const Search = ({ onNavigate }: IProps) => {
                   "American", "South American", "Mexican",]}
         onOptionPress={setFilterOption}
         // initOption={filterOption}
-      >
+      > 
       </FilterBar>
 
       {loading ? 
