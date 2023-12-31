@@ -1,4 +1,5 @@
 import LightTextButton from "@/Components/Button/LightTextButton";
+import FilterBar from "@/Components/FilterBar/FilterBar";
 import Card, { CardDirection } from "@/Components/Card/Card";
 
 import { Recipe } from '@/Model/foodRecommendation';
@@ -15,21 +16,30 @@ interface IProps {
 }
 
 export const Home = ({ onNavigate }: IProps) => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [breakfastRecipes, setBreakFastRecipes] = useState<Recipe[]>([]);
   const [lunchRecipes, setLunchRecipes] = useState<Recipe[]>([]);
   // const [dinnerRecipes, setDinnerRecipes] = useState<Recipe[]>([]);
   const [snackRecipes, setSnackRecipes] = useState<Recipe[]>([]);
 
+  const [filterOption, setFilterOption] = useState(null);
+
   useEffect(() => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    fetchData();
+  }, [filterOption]);
+
+
   const fetchData = async () => {
+    if (filterOption == "All") return setFilterOption(null)
     try {
-      setBreakFastRecipes((await foodApi.getRecipes('', 'Breakfast')).recipes)
-      setLunchRecipes((await foodApi.getRecipes('', 'Lunch')).recipes)
-      setSnackRecipes((await foodApi.getRecipes('', 'Snack')).recipes)
+      setLoading(true)
+      setBreakFastRecipes((await foodApi.getRecipes('', 'Breakfast', filterOption)).recipes)
+      setLunchRecipes((await foodApi.getRecipes('', 'Lunch', filterOption)).recipes)
+      setSnackRecipes((await foodApi.getRecipes('', 'Snack', filterOption)).recipes)
       setLoading(false)
     } 
     catch (error) {
@@ -41,6 +51,14 @@ export const Home = ({ onNavigate }: IProps) => {
     <ScrollView contentContainerStyle={{ paddingHorizontal: 10 }}> 
 
       <View>
+
+        <FilterBar 
+          options={["All", "Asian", "South East Asian", "Chinese", "Japanese", "Indian", 
+                    "Eastern Europe", "Central Europe", "British", "French", "Italian", 
+                    "American", "South American", "Mexican",]}
+          onOptionPress={setFilterOption}
+        >
+        </FilterBar>
 
         {/* Breakfast */}
         <View style={styles.titleRow}>
@@ -227,7 +245,6 @@ const styles = StyleSheet.create({
       fontWeight: '500',
       fontSize: FontSize.SMALL,
       color: Colors.PRIMARY_TEXT,
-      // flex: 1
   },
   subtitle: {
       fontWeight: '400',

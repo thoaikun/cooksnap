@@ -7,6 +7,7 @@ import LightTextButton from "@/Components/Button/LightTextButton";
 import Card, { CardDirection } from "@/Components/Card/Card";
 import Input from "@/Components/Input/Input";
 import RatingStars from "@/Components/RatingStars/RatingStars";
+import FilterBar from "@/Components/FilterBar/FilterBar";
 import useInputController from "@/Components/Input/useInputController";
 import Divider from '@/Components/Divider/Divider';
 
@@ -40,17 +41,21 @@ export const Search = ({ onNavigate }: IProps) => {
   const [loadingNextPage, setLoadingNextPage] = useState(false);
   const [nextPage, setNextPage] = useState<string | null>(null);
 
+  const [filterOption, setFilterOption] = useState(null);
+
   useEffect(() => {
     setNextPage(null)
     fetchData();
-  }, [searchController.value]);
+  }, [searchController.value, filterOption]);
 
   const fetchData = async () => {
     if (searchController.value == "") return;
 
+    if (filterOption=="All") return setFilterOption(null);
+
     try {
       setLoading(true)
-      let {nextPage, recipes} = await foodApi.getRecipes(searchController.value)
+      let {nextPage, recipes} = await foodApi.getRecipes(searchController.value, null, filterOption)
       setLoading(false)
       setNextPage(nextPage)
       setSearchRecipes(recipes)
@@ -91,48 +96,59 @@ export const Search = ({ onNavigate }: IProps) => {
 
   return (
     <View style={styles.container}>
-      <Input 
-        label="Search"
-        controller={searchController}
-        prefix={
-          <FontAwesomeIcon 
-            icon={faMagnifyingGlass} 
-            size={22} 
-            color={searchController.isFocused ? Colors.PRIMARY : Colors.BACKGROUND} 
-          />
-        }
-      />
+      <View style={styles.inputContainer}>
+        <Input 
+          label="Search"
+          controller={searchController}
+          prefix={
+            <FontAwesomeIcon 
+              icon={faMagnifyingGlass} 
+              size={22} 
+              color={searchController.isFocused ? Colors.PRIMARY : Colors.BACKGROUND} 
+            />
+          }
+        />
+      </View>
+
+      <FilterBar 
+        options={["All", "Asian", "South East Asian", "Chinese", "Japanese", "Indian", 
+                  "Eastern Europe", "Central Europe", "British", "French", "Italian", 
+                  "American", "South American", "Mexican",]}
+        onOptionPress={setFilterOption}
+        // initOption={filterOption}
+      >
+      </FilterBar>
 
       {loading ? 
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={Colors.PRIMARY} />
         </View>
-        : null
+        : 
+        <FlatList
+          style={styles.listDishContainer}
+          data={searchRecipes}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => (
+            <Card 
+              imageUrl={item.image}
+              title={item.label}
+              subtitle={item.healthLabels.slice(0, 5).join(', ')}
+              direction={CardDirection.ROW} 
+              onPress={() => onNavigate(RootScreens.DISH_DETAIL, { dish: item })}
+            />
+          )}
+          onEndReached={fetchNextData}
+          onEndReachedThreshold={0.1}
+          ListFooterComponent={() => (
+            <View style={{ height: 100, justifyContent: 'center', alignItems: 'center' }}>
+              {loadingNextPage ? <ActivityIndicator size='large' color={Colors.PRIMARY} /> : null}
+            </View>
+          )}
+          ItemSeparatorComponent={() => <Divider />}
+          showsVerticalScrollIndicator={false}
+        />
       }
 
-      <FlatList
-        style={styles.listDishContainer}
-        data={searchRecipes}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => (
-          <Card 
-            imageUrl={item.image}
-            title={item.label}
-            subtitle={item.healthLabels.slice(0, 5).join(', ')}
-            direction={CardDirection.ROW} 
-            onPress={() => onNavigate(RootScreens.DISH_DETAIL, { dish: item })}
-          />
-        )}
-        onEndReached={fetchNextData}
-        onEndReachedThreshold={0.1}
-        ListFooterComponent={() => (
-          <View style={{ height: 100, justifyContent: 'center', alignItems: 'center' }}>
-            {loadingNextPage ? <ActivityIndicator size='large' color={Colors.PRIMARY} /> : null}
-          </View>
-        )}
-        ItemSeparatorComponent={() => <Divider />}
-        showsVerticalScrollIndicator={false}
-      />
     </View>
   );
 };
@@ -140,12 +156,12 @@ export const Search = ({ onNavigate }: IProps) => {
 const styles = StyleSheet.create({
   container: {
     marginVertical: 10,
-    paddingHorizontal: 20,
+    // paddingHorizontal: 20,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-start',
     justifyContent: 'center',
-    gap: 15,
+    // gap: 15,
   },
   containerRow: { 
       width: '100%',
@@ -202,6 +218,7 @@ const styles = StyleSheet.create({
   },
   listDishContainer: {
     marginTop: 15,
+    paddingHorizontal: 15,
     width: "100%"
   },
   title: {
@@ -210,11 +227,13 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   inputContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    rowGap: 15,
+    // display: 'flex',
+    // flexDirection: 'column',
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    // rowGap: 15,
+    paddingHorizontal: 15,
+    width: "100%"
   },
   buttonContainer: {
       flexDirection: 'row',
@@ -228,7 +247,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.WHITE,
   },
   loadingContainer: {
-    flex: 1,
+    // flex: 1,
     marginVertical: 15,
     width: "100%",
     alignItems: 'center',

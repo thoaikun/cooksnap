@@ -1,6 +1,7 @@
 import axios from "axios"
 
 import Card, { CardDirection } from "@/Components/Card/Card";
+import FilterBar from "@/Components/FilterBar/FilterBar";
 import { Recipe } from '@/Model/foodRecommendation';
 import foodApi from '@/Services/food';
 import { Colors, FontSize } from "@/Theme/Variables";
@@ -21,14 +22,23 @@ export const Lunch = ({ onNavigate }: IProps) => {
   const [loadingNextPage, setLoadingNextPage] = useState(false);
   const [nextPage, setNextPage] = useState<string | null>(null);
 
+  const [filterOption, setFilterOption] = useState(null);
+
   useEffect(() => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    setNextPage(null)
+    fetchData();
+  }, [filterOption]);
+
   const fetchData = async () => {
+    if (filterOption=="All") return setFilterOption(null);
+
     try {
       setLoading(true)
-      let {nextPage, recipes} = await foodApi.getRecipes("", "Lunch")
+      let {nextPage, recipes} = await foodApi.getRecipes("", "Lunch", filterOption)
       setLoading(false)
       setNextPage(nextPage)
       setLunchRecipes(recipes)
@@ -68,7 +78,17 @@ export const Lunch = ({ onNavigate }: IProps) => {
   };
 
   return (
-    <>
+    <View style={styles.stackLayout}>
+
+      <FilterBar 
+        options={["All", "Asian", "South East Asian", "Chinese", "Japanese", "Indian", 
+                  "Eastern Europe", "Central Europe", "British", "French", "Italian", 
+                  "American", "South American", "Mexican",]}
+        onOptionPress={setFilterOption}
+        // initOption={filterOption}
+      >
+      </FilterBar>
+
       {loading ? 
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={Colors.PRIMARY} />
@@ -98,7 +118,7 @@ export const Lunch = ({ onNavigate }: IProps) => {
           showsVerticalScrollIndicator={false}
         />
       }
-    </>
+    </View>
   );
 };
 
@@ -141,8 +161,16 @@ const styles = StyleSheet.create({
       gap: 12
   },
   containerColumn: {
-    paddingTop: 15,
-    marginHorizontal: 15
+    marginVertical: 10,
+    paddingHorizontal: 15,
+    width: "100%"
+  },
+  stackLayout: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    gap: 12,
   },
   imageColumn: {
       width: '100%',
@@ -179,7 +207,9 @@ const styles = StyleSheet.create({
   },
   loadingContainer: {
     flex: 1,
+    width: "100%",
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginVertical: 50,
   }
 })

@@ -3,6 +3,7 @@ import axios from "axios"
 import base from "./base";
 import { IFavorite, IFavoriteDish } from "@/Model/favorite";
 
+
 const getRecipes = async (query: string='', mealType: null | string=null, cuisineType: null | string=null, 
                           dishType: null | string=null) => {
     let params = {
@@ -13,9 +14,9 @@ const getRecipes = async (query: string='', mealType: null | string=null, cuisin
         app_key: '6b8d863a0a91781fc086d7491bfbf73e'
     }
 
-    if (cuisineType !== null) params['cuisineType'] = cuisineType;
-    
     if (mealType !== null) params['mealType'] = mealType;
+    
+    if (cuisineType !== null) params['cuisineType'] = cuisineType;
 
     if (dishType !== null) params['dishType'] = dishType;
 
