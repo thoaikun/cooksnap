@@ -2,11 +2,11 @@ import { View, Text, ScrollView } from "react-native"
 import styles from "./styles"
 
 interface IProps {
-    instructions: String[]
+    instructions?: String[]
 }
 
 const RecipeTab = ({ instructions }: IProps) => {
-    if (instructions.length === 0) {
+    if (!instructions?.length || instructions.length === 0) {
         return (
             <View style={styles.tabBody}>
                 <Text style={styles.stepContent}>No instructions available</Text>

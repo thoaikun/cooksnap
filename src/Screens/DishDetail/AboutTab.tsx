@@ -100,7 +100,7 @@ const AboutTab = ({ dish }: IProps) => {
             <View style={styles.section}>
                 <Text style={styles.sectionTitle}>{i18n.t(LocalizationKey.INGREDIENT)}</Text>
                 <View style={styles.sectionContainer}>
-                    {dish.ingredientLines.map((item, index) => (
+                    {dish?.ingredientLines && dish.ingredientLines.map((item, index) => (
                         <Text key={index} style={styles.sectionText}>
                             {item}
                         </Text>
