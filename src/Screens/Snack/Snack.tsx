@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
   },
   containerColumn: {
     marginVertical: 10,
-    paddingHorizontal: 15,
+    // paddingHorizontal: 15,
     width: "100%"
   },
   stackLayout: {
@@ -171,6 +171,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'center',
     gap: 12,
+    paddingHorizontal: 15,
   },
   imageColumn: {
       width: '100%',

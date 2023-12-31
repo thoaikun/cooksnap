@@ -96,19 +96,17 @@ export const Search = ({ onNavigate }: IProps) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.inputContainer}>
-        <Input 
-          label="Search"
-          controller={searchController}
-          prefix={
-            <FontAwesomeIcon 
-              icon={faMagnifyingGlass} 
-              size={22} 
-              color={searchController.isFocused ? Colors.PRIMARY : Colors.BACKGROUND} 
-            />
-          }
-        />
-      </View>
+      <Input 
+        label="Search"
+        controller={searchController}
+        prefix={
+          <FontAwesomeIcon 
+            icon={faMagnifyingGlass} 
+            size={22} 
+            color={searchController.isFocused ? Colors.PRIMARY : Colors.BACKGROUND} 
+          />
+        }
+      />
 
       <FilterBar 
         options={["All", "Asian", "South East Asian", "Chinese", "Japanese", "Indian", 
@@ -156,7 +154,7 @@ export const Search = ({ onNavigate }: IProps) => {
 const styles = StyleSheet.create({
   container: {
     marginVertical: 10,
-    // paddingHorizontal: 20,
+    paddingHorizontal: 20,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-start',
@@ -218,7 +216,7 @@ const styles = StyleSheet.create({
   },
   listDishContainer: {
     marginTop: 15,
-    paddingHorizontal: 15,
+    // paddingHorizontal: 15,
     width: "100%"
   },
   title: {

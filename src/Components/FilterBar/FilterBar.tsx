@@ -29,7 +29,7 @@ const FilterBar = ({ options, onOptionPress, initOption=null }) => {
 const styles = StyleSheet.create({
   container: {
     marginVertical: 10,
-    paddingHorizontal: 15,
+    paddingHorizontal: 5,
     height: 45,
   },
   optionButton: {
