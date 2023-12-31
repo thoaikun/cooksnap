@@ -1,6 +1,7 @@
 import axios from "axios"
 
 import Card, { CardDirection } from "@/Components/Card/Card";
+import FilterBar from "@/Components/FilterBar/FilterBar";
 import { Recipe } from '@/Model/foodRecommendation';
 import foodApi from '@/Services/food';
 import { Colors, FontSize } from "@/Theme/Variables";
@@ -10,6 +11,8 @@ import { ActivityIndicator, ScrollView, StyleSheet, View, FlatList } from "react
 
 import { RootScreens } from '..';
 import Divider from "@/Components/Divider/Divider";
+
+import { LocalizationKey, i18n } from '@/Localization';
 
 interface IProps {
   onNavigate: (screen: RootScreens, params?: any) => void;
@@ -21,14 +24,23 @@ export const Breakfast = ({ onNavigate }: IProps) => {
   const [loadingNextPage, setLoadingNextPage] = useState(false);
   const [nextPage, setNextPage] = useState<string | null>(null);
 
+  const [filterOption, setFilterOption] = useState(null);
+
   useEffect(() => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    setNextPage(null)
+    fetchData();
+  }, [filterOption]);
+
   const fetchData = async () => {
+    if (filterOption=="All") return setFilterOption(null);
+
     try {
       setLoading(true)
-      let {nextPage, recipes} = await foodApi.getRecipes("", "Lunch")
+      let {nextPage, recipes} = await foodApi.getRecipes("", "Breakfast", filterOption)
       setLoading(false)
       setNextPage(nextPage)
       setBreakFastRecipes(recipes)
@@ -68,12 +80,33 @@ export const Breakfast = ({ onNavigate }: IProps) => {
   };
 
   return (
-    <>
+    <View style={styles.stackLayout}>
+      
+      <FilterBar 
+        options_to_values={{
+            [i18n.t(LocalizationKey.ALL)]: "All", 
+            [i18n.t(LocalizationKey.ASIAN)]: "Asian", 
+            [i18n.t(LocalizationKey.SOUTH_EAST_ASIAN)]: "South East Asian", 
+            [i18n.t(LocalizationKey.CHINESE)]: "Chinese", 
+            [i18n.t(LocalizationKey.JAPANESE)]: "Japanese", 
+            [i18n.t(LocalizationKey.INDIAN)]: "Indian", 
+            [i18n.t(LocalizationKey.EASTERN_EUROPE)]: "Eastern Europe", 
+            [i18n.t(LocalizationKey.CENTRAL_EUROPE)]: "Central Europe", 
+            [i18n.t(LocalizationKey.BRITISH)]: "British", 
+            [i18n.t(LocalizationKey.FRENCH)]: "French", 
+            [i18n.t(LocalizationKey.ITALIAN)]: "Italian", 
+            [i18n.t(LocalizationKey.AMERICAN)]: "American", 
+            [i18n.t(LocalizationKey.SOUTH_AMERICAN)]: "South American", 
+            [i18n.t(LocalizationKey.MEXICAN)]: "Mexican",}}
+        onOptionPress={setFilterOption}
+        // initOption={filterOption}
+      >
+      </FilterBar>
+
       {loading ? 
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={Colors.PRIMARY} />
-        </View>
-        :
+        </View> : 
         <FlatList
           style={styles.containerColumn}
           data={breakfastRecipes}
@@ -88,6 +121,8 @@ export const Breakfast = ({ onNavigate }: IProps) => {
           )}
           onEndReached={fetchNextData}
           onEndReachedThreshold={0.1}
+          // ListHeaderComponent={() => (
+          // )}
           ListFooterComponent={() => (
             <View style={{ height: 100, justifyContent: 'center', alignItems: 'center' }}>
               {loadingNextPage ? <ActivityIndicator size='large' color={Colors.PRIMARY} /> : null}
@@ -98,7 +133,7 @@ export const Breakfast = ({ onNavigate }: IProps) => {
           showsVerticalScrollIndicator={false}
         />
       }
-    </>
+    </View>
   );
 };
 
@@ -141,8 +176,17 @@ const styles = StyleSheet.create({
       gap: 12
   },
   containerColumn: {
-    paddingTop: 15,
-    marginHorizontal: 15
+    marginVertical: 10,
+    // paddingHorizontal: 15,
+    width: "100%"
+  },
+  stackLayout: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    gap: 12,
+    paddingHorizontal: 15,
   },
   imageColumn: {
       width: '100%',
@@ -179,7 +223,9 @@ const styles = StyleSheet.create({
   },
   loadingContainer: {
     flex: 1,
+    width: "100%",
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginVertical: 50,
   }
 })

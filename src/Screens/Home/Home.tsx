@@ -1,4 +1,5 @@
 import LightTextButton from "@/Components/Button/LightTextButton";
+import FilterBar from "@/Components/FilterBar/FilterBar";
 import Card, { CardDirection } from "@/Components/Card/Card";
 
 import { Recipe } from '@/Model/foodRecommendation';
@@ -10,26 +11,37 @@ import React, { useEffect, useState } from "react";
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from "react-native";
 import { RootScreens } from '..';
 
+import { LocalizationKey, i18n } from '@/Localization';
+
 interface IProps {
   onNavigate: (screen: RootScreens, params?: any) => void;
 }
 
 export const Home = ({ onNavigate }: IProps) => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [breakfastRecipes, setBreakFastRecipes] = useState<Recipe[]>([]);
   const [lunchRecipes, setLunchRecipes] = useState<Recipe[]>([]);
   // const [dinnerRecipes, setDinnerRecipes] = useState<Recipe[]>([]);
   const [snackRecipes, setSnackRecipes] = useState<Recipe[]>([]);
 
+  const [filterOption, setFilterOption] = useState(null);
+
   useEffect(() => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    fetchData();
+  }, [filterOption]);
+
+
   const fetchData = async () => {
+    if (filterOption == "All") return setFilterOption(null)
     try {
-      setBreakFastRecipes((await foodApi.getRecipes('', 'Breakfast')).recipes)
-      setLunchRecipes((await foodApi.getRecipes('', 'Lunch')).recipes)
-      setSnackRecipes((await foodApi.getRecipes('', 'Snack')).recipes)
+      setLoading(true)
+      setBreakFastRecipes((await foodApi.getRecipes('', 'Breakfast', filterOption)).recipes)
+      setLunchRecipes((await foodApi.getRecipes('', 'Lunch', filterOption)).recipes)
+      setSnackRecipes((await foodApi.getRecipes('', 'Snack', filterOption)).recipes)
       setLoading(false)
     } 
     catch (error) {
@@ -42,9 +54,29 @@ export const Home = ({ onNavigate }: IProps) => {
 
       <View>
 
+        <FilterBar 
+          options_to_values={{
+                    [i18n.t(LocalizationKey.ALL)]: "All", 
+                    [i18n.t(LocalizationKey.ASIAN)]: "Asian", 
+                    [i18n.t(LocalizationKey.SOUTH_EAST_ASIAN)]: "South East Asian", 
+                    [i18n.t(LocalizationKey.CHINESE)]: "Chinese", 
+                    [i18n.t(LocalizationKey.JAPANESE)]: "Japanese", 
+                    [i18n.t(LocalizationKey.INDIAN)]: "Indian", 
+                    [i18n.t(LocalizationKey.EASTERN_EUROPE)]: "Eastern Europe", 
+                    [i18n.t(LocalizationKey.CENTRAL_EUROPE)]: "Central Europe", 
+                    [i18n.t(LocalizationKey.BRITISH)]: "British", 
+                    [i18n.t(LocalizationKey.FRENCH)]: "French", 
+                    [i18n.t(LocalizationKey.ITALIAN)]: "Italian", 
+                    [i18n.t(LocalizationKey.AMERICAN)]: "American", 
+                    [i18n.t(LocalizationKey.SOUTH_AMERICAN)]: "South American", 
+                    [i18n.t(LocalizationKey.MEXICAN)]: "Mexican",}}
+          onOptionPress={setFilterOption}
+        >
+        </FilterBar>
+
         {/* Breakfast */}
         <View style={styles.titleRow}>
-          <Text style={styles.title}>Bữa sáng</Text>
+          <Text style={styles.title}>{i18n.t(LocalizationKey.BREAKFAST)}</Text>
 
           <LightTextButton 
             title="See all" 
@@ -78,7 +110,7 @@ export const Home = ({ onNavigate }: IProps) => {
 
         {/* Lunch */}
         <View style={styles.titleRow}>
-          <Text style={styles.title}>Bữa trưa</Text>
+          <Text style={styles.title}>{i18n.t(LocalizationKey.LUNCH)}</Text>
 
           <LightTextButton 
             title="See all" 
@@ -112,7 +144,7 @@ export const Home = ({ onNavigate }: IProps) => {
 
         {/* Snack */}
         <View style={styles.titleRow}>
-          <Text style={styles.title}>Ăn vặt</Text>
+          <Text style={styles.title}>{i18n.t(LocalizationKey.SNACK)}</Text>
 
           <LightTextButton 
             title="See all"
@@ -227,7 +259,6 @@ const styles = StyleSheet.create({
       fontWeight: '500',
       fontSize: FontSize.SMALL,
       color: Colors.PRIMARY_TEXT,
-      // flex: 1
   },
   subtitle: {
       fontWeight: '400',
