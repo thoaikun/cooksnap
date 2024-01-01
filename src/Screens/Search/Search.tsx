@@ -24,12 +24,13 @@ import { faEnvelope } from '@fortawesome/free-regular-svg-icons/faEnvelope';
 import { faStar, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useQuery } from "@tanstack/react-query";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { ActivityIndicator, View, Text, Image, StyleSheet, Pressable, ScrollView, Dimensions, FlatList } from "react-native"
 import { useDispatch, useSelector } from "react-redux";
 
 import { RootScreens } from '..';
 import { i18n, LocalizationKey } from "@/Localization";
+import { debounce } from "@/Utils";
 
 interface IProps {
   onNavigate: (screen: RootScreens, params?: any) => void;
@@ -44,19 +45,12 @@ export const Search = ({ onNavigate }: IProps) => {
 
   const [filterOption, setFilterOption] = useState(null);
 
-  useEffect(() => {
-    setNextPage(null)
-    fetchData();
-  }, [searchController.value, filterOption]);
-
-  const fetchData = async () => {
-    if (searchController.value == "") return;
-
-    if (filterOption=="All") return setFilterOption(null);
+  const fetchData = async (value: string, filter: any) => {
+    if (value == "") return;
 
     try {
       setLoading(true)
-      let {nextPage, recipes} = await foodApi.getRecipes(searchController.value, null, filterOption)
+      let {nextPage, recipes} = await foodApi.getRecipes(value, null, filter)
       setLoading(false)
       setNextPage(nextPage)
       setSearchRecipes(recipes)
@@ -95,6 +89,21 @@ export const Search = ({ onNavigate }: IProps) => {
     }
   };
 
+  const handleSearch = useCallback(
+    debounce((value: string, filter: any) => {
+        //tracking - done
+        if (value == '') return;
+        fetchData(value, filter)
+    }, 500),
+    [],
+  );
+
+    
+  useEffect(() => {
+    setNextPage(null)
+    handleSearch(searchController.value, filterOption)
+  }, [searchController.value, filterOption]);
+  
   return (
     <View style={styles.container}>
       <Input 

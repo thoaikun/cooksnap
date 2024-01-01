@@ -41,7 +41,7 @@ export const Home = ({ onNavigate }: IProps) => {
       setLoading(true)
       setBreakFastRecipes((await foodApi.getRecipes('', 'Breakfast', filterOption)).recipes)
       setLunchRecipes((await foodApi.getRecipes('', 'Lunch', filterOption)).recipes)
-      setSnackRecipes((await foodApi.getRecipes('', 'Snack', filterOption)).recipes)
+      setSnackRecipes((await foodApi.getRecipes('', 'Dinner', filterOption)).recipes)
       setLoading(false)
     } 
     catch (error) {

@@ -67,7 +67,7 @@ const DishDetail = ({ dish }: IProps ) => {
           {(props) => (
             <RecipeTab
               {...props}
-              instructions={dish.instructionLines}
+              instructions={dish.instructions}
             />
           )}
         </Tab.Screen>

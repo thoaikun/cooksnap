@@ -54,46 +54,26 @@ const getRecommendationFromImage = async (payload: FormData) => {
         },
         data : payload
     };
-    // return axios.request(config)
-    //     .then(function (response) {
-    //         const prediction: FoodRecommendation = response.data
-    //         const predictedFood = []
-    //         for (let result of prediction.segmentation_results) {
-    //             for (let recognitionResult of result.recognition_results) {
-    //                 predictedFood.push(recognitionResult.name)
-    //             }
-    //         }
-            
-    //         // get dishes form the fist item in predictedFood
-    //         return axios.get('https://api.edamam.com/api/recipes/v2', {
-    //             params: {
-    //                 type: 'public',
-    //                 beta: true,
-    //                 q: predictedFood[0],
-    //                 app_id: 'e3500b3e',
-    //                 app_key: '6b8d863a0a91781fc086d7491bfbf73e'
-    //             }
-    //         })
-    //     })
-    //     .then((res) => {
-    //         const result: DishResult = res.data
-    //         const dishes: Recipe[] = []
-    //         for (let hit of result.hits) {
-    //             dishes.push(hit.recipe)
-    //         }
-    //         return dishes
-    //     })
-    //     .catch(function (error) {
-    //         throw error
-    //     });
-    return axios.get('https://api.edamam.com/api/recipes/v2', {
-            params: {
-                type: 'public',
-                beta: true,
-                q: 'salad',
-                app_id: 'e3500b3e',
-                app_key: '6b8d863a0a91781fc086d7491bfbf73e'
+    return axios.request(config)
+        .then(function (response) {
+            const prediction: FoodRecommendation = response.data
+            const predictedFood = []
+            for (let result of prediction.segmentation_results) {
+                for (let recognitionResult of result.recognition_results) {
+                    predictedFood.push(recognitionResult.name)
+                }
             }
+            
+            // get dishes form the fist item in predictedFood
+            return axios.get('https://api.edamam.com/api/recipes/v2', {
+                params: {
+                    type: 'public',
+                    beta: true,
+                    q: predictedFood[0],
+                    app_id: 'e3500b3e',
+                    app_key: '6b8d863a0a91781fc086d7491bfbf73e'
+                }
+            })
         })
         .then((res) => {
             const result: DishResult = res.data
@@ -106,6 +86,7 @@ const getRecommendationFromImage = async (payload: FormData) => {
         .catch(function (error) {
             throw error
         });
+
 }
 
 const getDishFromId = async (dishId: string) => {

@@ -106,7 +106,7 @@ export interface Recipe {
     dietLabels:        string[];
     healthLabels:      string[];
     cautions:          any[];
-    ingredientLines?:   string[];
+    ingredientLines:   string[];
     ingredients:       Ingredient[];
     calories:          number;
     totalCO2Emissions: number;
@@ -119,7 +119,7 @@ export interface Recipe {
     totalNutrients:    { [key: string]: Total };
     totalDaily:        { [key: string]: Total };
     digest:            Digest[];
-    instructionLines?:  any[];
+    instructions?:     string[];
 }
 
 export interface Digest {
