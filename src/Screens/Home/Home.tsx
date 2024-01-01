@@ -55,22 +55,23 @@ export const Home = ({ onNavigate }: IProps) => {
       <View>
 
         <FilterBar 
-          countriesFilter={{
-                    [i18n.t(LocalizationKey.ALL)]: "All", 
-                    [i18n.t(LocalizationKey.ASIAN)]: "Asian", 
-                    [i18n.t(LocalizationKey.SOUTH_EAST_ASIAN)]: "South East Asian", 
-                    [i18n.t(LocalizationKey.CHINESE)]: "Chinese", 
-                    [i18n.t(LocalizationKey.JAPANESE)]: "Japanese", 
-                    [i18n.t(LocalizationKey.INDIAN)]: "Indian", 
-                    [i18n.t(LocalizationKey.EASTERN_EUROPE)]: "Eastern Europe", 
-                    [i18n.t(LocalizationKey.CENTRAL_EUROPE)]: "Central Europe", 
-                    [i18n.t(LocalizationKey.BRITISH)]: "British", 
-                    [i18n.t(LocalizationKey.FRENCH)]: "French", 
-                    [i18n.t(LocalizationKey.ITALIAN)]: "Italian", 
-                    [i18n.t(LocalizationKey.AMERICAN)]: "American", 
-                    [i18n.t(LocalizationKey.SOUTH_AMERICAN)]: "South American", 
-                    [i18n.t(LocalizationKey.MEXICAN)]: "Mexican",}}
+          options_to_values={{
+              [i18n.t(LocalizationKey.ALL)]: "All", 
+              [i18n.t(LocalizationKey.ASIAN)]: "Asian", 
+              [i18n.t(LocalizationKey.SOUTH_EAST_ASIAN)]: "South East Asian", 
+              [i18n.t(LocalizationKey.CHINESE)]: "Chinese", 
+              [i18n.t(LocalizationKey.JAPANESE)]: "Japanese", 
+              [i18n.t(LocalizationKey.INDIAN)]: "Indian", 
+              [i18n.t(LocalizationKey.EASTERN_EUROPE)]: "Eastern Europe", 
+              [i18n.t(LocalizationKey.CENTRAL_EUROPE)]: "Central Europe", 
+              [i18n.t(LocalizationKey.BRITISH)]: "British", 
+              [i18n.t(LocalizationKey.FRENCH)]: "French", 
+              [i18n.t(LocalizationKey.ITALIAN)]: "Italian", 
+              [i18n.t(LocalizationKey.AMERICAN)]: "American", 
+              [i18n.t(LocalizationKey.SOUTH_AMERICAN)]: "South American", 
+              [i18n.t(LocalizationKey.MEXICAN)]: "Mexican",}}
           onOptionPress={setFilterOption}
+          // initOption={filterOption}
         >
         </FilterBar>
 
