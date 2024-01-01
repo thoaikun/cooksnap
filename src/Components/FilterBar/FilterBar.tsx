@@ -3,11 +3,11 @@ import { View, ScrollView, TouchableOpacity, Text, StyleSheet } from 'react-nati
 
 import { Colors, FontSize } from "@/Theme/Variables";
 
-const FilterBar = ({ options_to_values, onOptionPress, initOption=null }) => {
+const FilterBar = ({ options_to_values, onOptionPress, initOption=null }: any) => {
   const options = Object.keys(options_to_values)
   const [activeOption, setActiveOption] = useState(initOption === null ? options[0] : initOption);
 
-  const handleOptionPress = (option) => {
+  const handleOptionPress = (option: any) => {
     setActiveOption(option);
     onOptionPress(options_to_values[option])
   };

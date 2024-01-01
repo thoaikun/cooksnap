@@ -55,7 +55,7 @@ export const Home = ({ onNavigate }: IProps) => {
       <View>
 
         <FilterBar 
-          options_to_values={{
+          countriesFilter={{
                     [i18n.t(LocalizationKey.ALL)]: "All", 
                     [i18n.t(LocalizationKey.ASIAN)]: "Asian", 
                     [i18n.t(LocalizationKey.SOUTH_EAST_ASIAN)]: "South East Asian", 

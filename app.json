@@ -29,7 +29,11 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.hpcc.expo_redux_template"
+      "package": "com.hpcc.expo_redux_template",
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -46,6 +50,9 @@
       "policy": "sdkVersion"
     },
     "extra": {
+      "eas": {
+        "projectId": "cd821998-f331-42e3-b58c-ea7b6a552b70"
+      }
     },
     "owner": "thoaile"
   }

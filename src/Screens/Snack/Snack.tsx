@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios from "axios";
 
 import Card, { CardDirection } from "@/Components/Card/Card";
 import FilterBar from "@/Components/FilterBar/FilterBar";
@@ -7,12 +7,13 @@ import { Recipe } from '@/Model/foodRecommendation';
 import foodApi from '@/Services/food';
 import { Colors, FontSize } from "@/Theme/Variables";
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, ScrollView, StyleSheet, View } from "react-native";
+import { ActivityIndicator, FlatList, StyleSheet, View } from "react-native";
 
-import { RootScreens } from '..';
 import Divider from "@/Components/Divider/Divider";
+import { RootScreens } from '..';
 
 import { LocalizationKey, i18n } from '@/Localization';
+import { DishResult } from "@/Model/foodRecommendation";
 
 interface IProps {
   onNavigate: (screen: RootScreens, params?: any) => void;
@@ -83,7 +84,7 @@ export const Snack = ({ onNavigate }: IProps) => {
     <View style={styles.stackLayout}>
 
       <FilterBar 
-        options_to_values={{
+        countriesFilter={{
           [i18n.t(LocalizationKey.ALL)]: "All", 
           [i18n.t(LocalizationKey.ASIAN)]: "Asian", 
           [i18n.t(LocalizationKey.SOUTH_EAST_ASIAN)]: "South East Asian", 

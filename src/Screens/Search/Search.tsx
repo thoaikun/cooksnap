@@ -29,6 +29,7 @@ import { ActivityIndicator, View, Text, Image, StyleSheet, Pressable, ScrollView
 import { useDispatch, useSelector } from "react-redux";
 
 import { RootScreens } from '..';
+import { i18n, LocalizationKey } from "@/Localization";
 
 interface IProps {
   onNavigate: (screen: RootScreens, params?: any) => void;
@@ -109,9 +110,21 @@ export const Search = ({ onNavigate }: IProps) => {
       />
 
       <FilterBar 
-        options={["All", "Asian", "South East Asian", "Chinese", "Japanese", "Indian", 
-                  "Eastern Europe", "Central Europe", "British", "French", "Italian", 
-                  "American", "South American", "Mexican",]}
+         options_to_values={{
+          [i18n.t(LocalizationKey.ALL)]: "All", 
+          [i18n.t(LocalizationKey.ASIAN)]: "Asian", 
+          [i18n.t(LocalizationKey.SOUTH_EAST_ASIAN)]: "South East Asian", 
+          [i18n.t(LocalizationKey.CHINESE)]: "Chinese", 
+          [i18n.t(LocalizationKey.JAPANESE)]: "Japanese", 
+          [i18n.t(LocalizationKey.INDIAN)]: "Indian", 
+          [i18n.t(LocalizationKey.EASTERN_EUROPE)]: "Eastern Europe", 
+          [i18n.t(LocalizationKey.CENTRAL_EUROPE)]: "Central Europe", 
+          [i18n.t(LocalizationKey.BRITISH)]: "British", 
+          [i18n.t(LocalizationKey.FRENCH)]: "French", 
+          [i18n.t(LocalizationKey.ITALIAN)]: "Italian", 
+          [i18n.t(LocalizationKey.AMERICAN)]: "American", 
+          [i18n.t(LocalizationKey.SOUTH_AMERICAN)]: "South American", 
+          [i18n.t(LocalizationKey.MEXICAN)]: "Mexican",}}
         onOptionPress={setFilterOption}
         // initOption={filterOption}
       > 

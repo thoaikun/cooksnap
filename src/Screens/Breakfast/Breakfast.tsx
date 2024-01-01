@@ -2,7 +2,7 @@ import axios from "axios"
 
 import Card, { CardDirection } from "@/Components/Card/Card";
 import FilterBar from "@/Components/FilterBar/FilterBar";
-import { Recipe } from '@/Model/foodRecommendation';
+import { DishResult, Recipe } from '@/Model/foodRecommendation';
 import foodApi from '@/Services/food';
 import { Colors, FontSize } from "@/Theme/Variables";
 
